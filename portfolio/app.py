@@ -82,7 +82,7 @@ def index():
             "tags": ["Web App", "HTML/CSS/JS", "EmailJS", "Interactive", "Personal"],
             "link": "https://github.com/keneyias666/love-proposal-mwe",
             "aria": "View Love Proposal Web App on GitHub",
-            "year": "2025",
+            "year": "2021",
             "type_badge": "web",
             "featured": True,
         },
