@@ -2,13 +2,12 @@ from flask import Flask, render_template, request, jsonify
 import os
 import requests
 
-# Get the directory where app.py is located
-basedir = os.path.dirname(os.path.abspath(__file__))
-
-app = Flask(__name__,
-            template_folder=os.path.join(basedir, 'templates'),
-            static_folder=os.path.join(basedir, 'static'),
-            static_url_path='/static')
+app = Flask(
+    __name__,
+    template_folder="templates",
+    static_folder="static",
+    static_url_path="/static"
+)
 
 # ── Flowise Configuration ──
 # Replace these with your actual Flowise deployment values
