@@ -2,8 +2,9 @@ services:
   - type: web
     name: portfolio
     env: python
-    buildCommand: cd portfolio && pip install -r requirements.txt
-    startCommand: gunicorn portfolio.app:app --bind 0.0.0.0:$PORT
+    rootDir: portfolio
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
     envVars:
       - key: FLOWISE_API_URL
         sync: false
