@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>keneyias-portfolio</title>
+  <link rel="icon" type="image/png" href="/static/images/logo%20svg.png" />
+  <meta name="description"
+    content="Portfolio of a BSIT 4th year student passionate about graphic art, typography, and technology." />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Cormorant Garamond (editorial display) + DM Sans (clean body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="/static/css/style.css" />
+
+  <script>
+    tailwind.config = {
+      darkMode: ['attribute', '[data-theme="dark"]'],
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Cormorant Garamond"', 'serif'],
+            body: ['"DM Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body
+  class="font-body bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-700 overflow-x-hidden">
+
+  <!-- ░░ BACKGROUND PRECIPITATION ░░ -->
+  <div class="precipitation-overlay" aria-hidden="true"></div>
+
+  <!-- ░░ GRAIN OVERLAY ░░ -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- ░░ CUSTOM CURSOR (DOT + RING) ░░ -->
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <!-- leaf-transition kept for burst animation hook -->
+  <div class="leaf-transition" id="leafTransition" aria-hidden="true"></div>
+
+  <!-- ░░ NAVIGATION ░░ -->
+  <nav class="fixed top-0 left-0 right-0 z-50 nav-glass">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" class="nav-logo brand-logo hover:opacity-85 transition-opacity duration-300" aria-label="KEA Home">
+        <img src="/static/images/logo%20svg.png" alt="KEA logo" class="brand-logo-img" />
+        <span class="font-display text-xl font-light tracking-widest text-[var(--text-primary)]">
+          <span class="font-semibold">KEA</span><span class="opacity-40">.</span>
+        </span>
+      </a>
+
+      <!-- Nav Links -->
+      <div class="hidden md:flex items-center gap-10">
+        <a href="#hero"
+          class="nav-link font-mono text-xs tracking-[0.2em] uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-300">Home</a>
+        <a href="#about"
+          class="nav-link font-mono text-xs tracking-[0.2em] uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-300">About</a>
+        <a href="#skills"
+          class="nav-link font-mono text-xs tracking-[0.2em] uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-300">Skills</a>
+        <a href="#hobbies"
+          class="nav-link font-mono text-xs tracking-[0.2em] uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-300">Hobbies</a>
+        <a href="#works"
+          class="nav-link font-mono text-xs tracking-[0.2em] uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-300">Works</a>
+        <a href="#artworks"
+          class="nav-link font-mono text-xs tracking-[0.2em] uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-300">Artworks</a>
+        <a href="#contact"
+          class="nav-link font-mono text-xs tracking-[0.2em] uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-300">Contact</a>
+      </div>
+
+      <!-- Right Controls -->
+      <div class="flex items-center gap-4">
+        <!-- Chat Toggle -->
+        <button id="chatToggleNav"
+          class="font-mono text-xs tracking-[0.15em] uppercase px-4 py-2 border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--text-primary)] transition-all duration-300 rounded-sm">
+          Chat
+        </button>
+        <!-- Theme Toggle -->
+        <button id="themeToggle"
+          class="theme-toggle-btn w-10 h-10 flex items-center justify-center border border-[var(--border)] rounded-sm hover:border-[var(--text-primary)] transition-all duration-300"
+          aria-label="Toggle theme">
+          <span class="theme-icon sun-icon">☀</span>
+          <span class="theme-icon moon-icon">◐</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ░░ HERO SECTION ░░ -->
+  <section id="hero" class="min-h-screen flex items-center pt-20 px-6 max-w-6xl mx-auto">
+    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+
+      <!-- Text Side -->
+      <div class="hero-text order-2 md:order-1">
+        <div class="mb-6 flex items-center gap-3 reveal-item">
+          <div class="w-8 h-px bg-[var(--text-secondary)]"></div>
+          <span class="font-mono text-xs tracking-[0.25em] uppercase text-[var(--text-secondary)]">BSIT · 4th
+            Year</span>
+        </div>
+
+        <h1
+          class="font-display text-6xl md:text-7xl lg:text-8xl leading-[0.92] font-light text-[var(--text-primary)] mb-6 reveal-item"
+          style="animation-delay:0.1s">
+          Kenette Elias<br />
+          <em class="italic font-light text-[var(--text-primary)]">Amaba C.</em><br />
+          <span class="text-[var(--text-secondary)] text-5xl md:text-6xl">Welcome.</span>
+        </h1>
+
+        <p class="font-body text-base font-light leading-relaxed text-[var(--text-secondary)] max-w-md mb-10 reveal-item"
+          style="animation-delay:0.2s">
+          Developer by degree. Artist by passion with a hint of obsession. I craft digital experiences where code meets
+          design — from clean UI/UX systems seamless backends, to expressive type-led art.
+        </p>
+
+        <div class="flex items-center gap-6 reveal-item" style="animation-delay:0.3s">
+          <a href="#works"
+            class="cta-primary font-mono text-xs tracking-[0.2em] uppercase px-8 py-3.5 bg-[var(--text-primary)] text-[var(--bg-primary)] hover:opacity-80 transition-opacity duration-300">
+            View Works
+          </a>
+          <a href="#contact"
+            class="font-mono text-xs tracking-[0.2em] uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-300 flex items-center gap-2">
+            Let's talk <span class="text-base">→</span>
+          </a>
+        </div>
+
+        <!-- Subtle tag cloud -->
+        <div class="mt-14 flex flex-wrap gap-2 reveal-item" style="animation-delay:0.4s">
+          <span class="tag-chip">Typography</span>
+          <span class="tag-chip">Graphic Artist</span>
+          <span class="tag-chip">FullStack Web Developer</span>
+          <span class="tag-chip">UI/UX Designer</span>
+        </div>
+      </div>
+
+      <!-- Profile Image Side -->
+      <div class="hero-image-wrap order-1 md:order-2 flex justify-center md:justify-end reveal-item"
+        style="animation-delay:0.15s">
+        <div class="profile-container">
+          <!-- Light image -->
+          <img src="/static/images/profilelight.png" alt="Profile photo - light mode"
+            class="profile-img profile-img--light" id="profileLight" />
+          <!-- Dark image -->
+          <img src="/static/images/profiledark.png" alt="Profile photo - dark mode"
+            class="profile-img profile-img--dark" id="profileDark" />
+          <!-- Decorative ring -->
+          <div class="profile-ring" aria-hidden="true"></div>
+          <!-- Corner accent -->
+          <div class="profile-accent-tl" aria-hidden="true"></div>
+          <div class="profile-accent-br" aria-hidden="true"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator">
+      <span
+        class="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--text-muted)] rotate-90 origin-center">Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ░░ ABOUT SECTION ░░ -->
+  <section id="about" class="py-32 px-6 max-w-6xl mx-auto">
+    <div class="section-header reveal-item">
+      <span class="font-mono text-xs tracking-[0.3em] uppercase text-[var(--text-muted)]">01 /</span>
+      <h2 class="font-display text-4xl md:text-5xl font-light text-[var(--text-primary)] mt-2">About Me</h2>
+      <div class="w-16 h-px bg-[var(--border)] mt-4"></div>
+    </div>
+
+    <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div class="md:col-span-2 reveal-item" style="animation-delay:0.1s">
+        <p class="font-body text-lg font-light leading-loose text-[var(--text-secondary)] mb-6">
+          I'm a <strong class="font-medium text-[var(--text-primary)]">4th year Bachelor of Science in Information
+            Technology</strong> student with a slightly deep love for the intersection of technology and visual
+          communication — a
+          quiet little polymath in the making, if you will.
+        </p>
+        <p class="font-body text-base font-light leading-loose text-[var(--text-secondary)] mb-6">
+          When I'm not building systems or debugging code (yes, the coffee-fueled kind), you'll find me obsessing over
+          kerning like it's a personality trait, crafting type-led posters with meticulous care, or getting lost in
+          the aesthetics of editorial design. Typography and Graphic Art isn't just a hobby of mine — it's a lens
+          through which I see all things.
+        </p>
+        <p class="font-body text-base font-light leading-loose text-[var(--text-secondary)] mb-6">
+          I'm a firm believer that <strong class="font-medium text-[var(--accent)]">progress, not perfection</strong>
+          is the name of the game. I believe great software and great design are the same thing — intentional,
+          refined, and purposeful. There's a certain magic in making the functional feel beautiful.
+        </p>
+        <p class="font-body text-base font-light leading-loose text-[var(--text-secondary)]">
+          Currently open to opportunities where I can code with care and design with heart. Let's make something
+          lovely together.
+        </p>
+        </p>
+      </div>
+
+      <div class="space-y-4 reveal-item" style="animation-delay:0.2s">
+        <!-- Phone -->
+        <div class="info-card info-card--icon">
+          <span class="info-card-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"
+                fill="currentColor" />
+            </svg>
+          </span>
+          <div>
+            <span
+              class="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--text-muted)] block mb-0.5">Phone</span>
+            <span class="font-body text-sm text-[var(--text-primary)]">+63 915 843 0692</span>
+          </div>
+        </div>
+        <!-- Availability -->
+        <div class="info-card info-card--icon">
+          <span class="info-card-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" fill="none" />
+              <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+          </span>
+          <div>
+            <span
+              class="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--text-muted)] block mb-0.5">Availability</span>
+            <span class="font-body text-sm text-[var(--text-primary)] flex items-center gap-2">
+              <span class="avail-dot"></span> Open to Opportunities
+            </span>
+          </div>
+        </div>
+        <!-- Location -->
+        <div class="info-card info-card--icon">
+          <span class="info-card-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"
+                fill="currentColor" />
+            </svg>
+          </span>
+          <div>
+            <span
+              class="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--text-muted)] block mb-0.5">Location</span>
+            <span class="font-body text-sm text-[var(--text-primary)]">Sinai Mohon 2 Tisa Cebu City, Philippines</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Education Timeline ── -->
+    <div class="mt-20 reveal-item" style="animation-delay:0.25s">
+      <div class="flex items-center gap-4 mb-10">
+        <span class="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--text-muted)]">Education</span>
+        <div class="flex-1 h-px bg-[var(--border)]"></div>
+      </div>
+
+      <div class="edu-timeline">
+        <!-- Elementary -->
+        <div class="edu-item">
+          <div class="edu-dot"></div>
+          <div class="edu-content">
+            <span class="edu-year">2009 — 2015</span>
+            <h4 class="edu-title">Elementary</h4>
+            <p class="edu-school">Tisa 2 Elementary School</p>
+          </div>
+        </div>
+        <!-- Junior High School -->
+        <div class="edu-item">
+          <div class="edu-dot"></div>
+          <div class="edu-content">
+            <span class="edu-year">2015 — 2019</span>
+            <h4 class="edu-title">Junior High School</h4>
+            <p class="edu-school">Don Carlos A. Gothon Memorial National High School</p>
+          </div>
+        </div>
+        <!-- Senior High School -->
+        <div class="edu-item">
+          <div class="edu-dot"></div>
+          <div class="edu-content">
+            <span class="edu-year">2019 — 2021</span>
+            <h4 class="edu-title">Senior High School</h4>
+            <p class="edu-school">Don Carlos A. Gothon Memorial National High School</p>
+            <p class="edu-track">STEM — Science, Technology, Engineering, Mathematics</p>
+          </div>
+        </div>
+        <!-- College -->
+        <div class="edu-item">
+          <div class="edu-dot"></div>
+          <div class="edu-content">
+            <span class="edu-year">2021 — Present</span>
+            <h4 class="edu-title">College</h4>
+            <p class="edu-school">University of Cebu — Main Campus</p>
+            <p class="edu-track">BS Information Technology</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Work Experience ── -->
+    <div class="mt-20 reveal-item" style="animation-delay:0.25s">
+      <div class="flex items-center gap-4 mb-10">
+        <span class="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--text-muted)]">Experience</span>
+        <div class="flex-1 h-px bg-[var(--border)]"></div>
+      </div>
+
+      <div class="exp-timeline">
+
+        <!-- Job 1 -->
+        <div class="exp-item reveal-item" style="animation-delay:0.3s">
+          <div class="exp-dot"></div>
+          <div class="exp-content">
+            <div class="exp-header">
+              <div>
+                <h3 class="exp-role">Cebu City Barangay Encoder</h3>
+                <p class="exp-company">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"
+                      fill="currentColor" />
+                  </svg>
+                  Barangay Tisa, Cebu City
+                </p>
+              </div>
+              <span class="exp-period">2020 – 2021</span>
+            </div>
+            <ul class="exp-duties">
+              <li>Helping with the maintenance of the Barangay's website.</li>
+              <li>Tech support in the Barangay Hall.</li>
+              <li>Aider of complaints passed down to the Barangay about Child and Woman rights.</li>
+              <li>Encoder of the complaints.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Job 2 -->
+        <div class="exp-item reveal-item" style="animation-delay:0.35s">
+          <div class="exp-dot"></div>
+          <div class="exp-content">
+            <div class="exp-header">
+              <div>
+                <h3 class="exp-role">Customer Service Rep Telco</h3>
+                <p class="exp-company">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"
+                      fill="currentColor" />
+                  </svg>
+                  EPERFORMAX (T-Mobile)
+                </p>
+              </div>
+              <span class="exp-period">2023 – 2024</span>
+            </div>
+            <ul class="exp-duties">
+              <li>Customer Account Management.</li>
+              <li>Technical Concerns of Customer.</li>
+              <li>Activation of Service.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ SKILLS SECTION ░░ -->
+  <section id="skills" class="py-32 px-6 border-t border-[var(--border)]">
+    <div class="max-w-6xl mx-auto">
+      <div class="section-header reveal-item">
+        <span class="font-mono text-xs tracking-[0.3em] uppercase text-[var(--text-muted)]">02 /</span>
+        <h2 class="font-display text-4xl md:text-5xl font-light text-[var(--text-primary)] mt-2">Skills</h2>
+        <div class="w-16 h-px bg-[var(--border)] mt-4"></div>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="skills-stats-row reveal-item mt-10">
+        <div class="skills-stat">
+          <span class="skills-stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"
+                fill="currentColor" />
+            </svg></span>
+          <div>
+            <p class="skills-stat-num">3+</p>
+            <p class="skills-stat-label">Years of Experience</p>
+          </div>
+        </div>
+        <div class="skills-stat">
+          <span class="skills-stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"
+                fill="currentColor" />
+            </svg></span>
+          <div>
+            <p class="skills-stat-num">20+</p>
+            <p class="skills-stat-label">Technical Skills</p>
+          </div>
+        </div>
+        <div class="skills-stat">
+          <span class="skills-stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"
+                fill="currentColor" />
+            </svg></span>
+          <div>
+            <p class="skills-stat-num">15+</p>
+            <p class="skills-stat-label">Projects Completed</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category Tabs -->
+      <div class="skills-tabs-wrap reveal-item mt-10">
+        <div class="skills-tabs" id="skillsTabs">
+          <button class="skills-tab is-active" data-tab="web"><svg width="14" height="14" viewBox="0 0 24 24"
+              fill="none">
+              <path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"
+                fill="currentColor" />
+            </svg> Web Development</button>
+          <button class="skills-tab" data-tab="design"><svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"
+                fill="currentColor" />
+            </svg> Design</button>
+          <button class="skills-tab" data-tab="database"><svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 2C8.13 2 5 3.34 5 5v14c0 1.66 3.13 3 7 3s7-1.34 7-3V5c0-1.66-3.13-3-7-3zm0 2c3.31 0 5 1.12 5 1.5S15.31 7 12 7 7 5.88 7 5.5 8.69 4 12 4zm0 16c-3.31 0-5-1.12-5-1.5V17c1.28.83 3.12 1 5 1s3.72-.17 5-1v1.5c0 .38-1.69 1.5-5 1.5z"
+                fill="currentColor" />
+            </svg> Database &amp; Systems</button>
+          <button class="skills-tab" data-tab="tools"><svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"
+                fill="currentColor" />
+            </svg> Tools &amp; DevOps</button>
+          <button class="skills-tab" data-tab="soft"><svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"
+                fill="currentColor" />
+            </svg> Soft Skills</button>
+        </div>
+      </div>
+
+      <!-- Tab Panels -->
+      <div class="skills-panels mt-8">
+
+        <!-- Web Development -->
+        <div class="skills-panel is-active" id="tab-web">
+          <div class="skills-panel-header">
+            <span class="skills-panel-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"
+                  fill="currentColor" />
+              </svg></span>
+            <div>
+              <h3 class="skills-panel-title">Web Development</h3>
+              <p class="skills-panel-sub">Building responsive and interactive web experiences</p>
+            </div>
+          </div>
+
+          <div class="skills-grid">
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">HTML5</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--expert">Proficient</span><span
+                    class="sk-yrs">3y</span></div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:88%"></div><span class="sk-pct">88%</span>
+              </div>
+              <p class="sk-desc">Semantic markup, accessibility best practices and clean structure.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">CSS3</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--expert">Proficient</span><span
+                    class="sk-yrs">3y</span></div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:85%"></div><span class="sk-pct">85%</span>
+              </div>
+              <p class="sk-desc">Flexbox, Grid, animations and responsive design.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">JavaScript</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Advanced</span><span
+                    class="sk-yrs">3y</span></div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:82%"></div><span class="sk-pct">82%</span>
+              </div>
+              <p class="sk-desc">ES6+, async programming and DOM manipulation.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Python</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Advanced</span><span
+                    class="sk-yrs">2y</span></div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:84%"></div><span class="sk-pct">84%</span>
+              </div>
+              <p class="sk-desc">Server-side scripting, automation and data processing.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">TypeScript</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Advanced</span><span
+                    class="sk-yrs">1y</span></div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:75%"></div><span class="sk-pct">75%</span>
+              </div>
+              <p class="sk-desc">Type-safe JavaScript development and modern patterns.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Tailwind CSS</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Advanced</span><span
+                    class="sk-yrs">1y</span></div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:80%"></div><span class="sk-pct">80%</span>
+              </div>
+              <p class="sk-desc">Utility-first styling for rapid UI construction.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">WordPress</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Strong</span><span class="sk-yrs">2y</span>
+                </div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:78%"></div><span class="sk-pct">78%</span>
+              </div>
+              <p class="sk-desc">CMS development, theme customisation and plugin integration.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">REST APIs</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Advanced</span><span
+                    class="sk-yrs">2y</span></div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:83%"></div><span class="sk-pct">83%</span>
+              </div>
+              <p class="sk-desc">Designing and consuming RESTful APIs with JSON and HTTP methods.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Design -->
+        <div class="skills-panel" id="tab-design">
+          <div class="skills-panel-header">
+            <span class="skills-panel-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                  fill="currentColor" />
+              </svg></span>
+            <div>
+              <h3 class="skills-panel-title">Design</h3>
+              <p class="skills-panel-sub">Visual communication, typography and brand identity</p>
+            </div>
+          </div>
+          <div class="skills-grid">
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Typography &amp; Layout</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--expert">Expert</span><span
+                    class="sk-yrs">4y</span></div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:95%"></div><span class="sk-pct">95%</span>
+              </div>
+              <p class="sk-desc">Type pairings, hierarchy and expressive editorial layouts.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Graphic Art &amp; Illustration</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--expert">Advanced</span><span
+                    class="sk-yrs">4y</span></div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:90%"></div><span class="sk-pct">90%</span>
+              </div>
+              <p class="sk-desc">Poster-making, digital illustration and visual storytelling.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Branding &amp; Composition</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Advanced</span><span
+                    class="sk-yrs">3y</span></div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:88%"></div><span class="sk-pct">88%</span>
+              </div>
+              <p class="sk-desc">Identity systems, visual consistency and brand voice.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Adobe Suite</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Strong</span><span class="sk-yrs">3y</span>
+                </div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:76%"></div><span class="sk-pct">76%</span>
+              </div>
+              <p class="sk-desc">Photoshop, Illustrator and InDesign for digital and print.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">UI / UX Principles</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Strong</span><span class="sk-yrs">2y</span>
+                </div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:82%"></div><span class="sk-pct">82%</span>
+              </div>
+              <p class="sk-desc">User-centred design, wireframing and interaction patterns.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Canva / Figma</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Advanced</span><span
+                    class="sk-yrs">3y</span></div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:85%"></div><span class="sk-pct">85%</span>
+              </div>
+              <p class="sk-desc">Rapid prototyping, mockups and collaborative design workflows.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Database & Systems -->
+        <div class="skills-panel" id="tab-database">
+          <div class="skills-panel-header">
+            <span class="skills-panel-icon">⊞</span>
+            <div>
+              <h3 class="skills-panel-title">Database &amp; Systems</h3>
+              <p class="skills-panel-sub">Data management, analysis and system design</p>
+            </div>
+          </div>
+          <div class="skills-grid">
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">MySQL / SQLite</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Strong</span><span class="sk-yrs">2y</span>
+                </div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:78%"></div><span class="sk-pct">78%</span>
+              </div>
+              <p class="sk-desc">Relational database design, queries and optimisation.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">System Analysis</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Strong</span><span class="sk-yrs">2y</span>
+                </div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:80%"></div><span class="sk-pct">80%</span>
+              </div>
+              <p class="sk-desc">Requirements gathering, DFDs and system documentation.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">CRUD Operations</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--expert">Advanced</span><span
+                    class="sk-yrs">3y</span></div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:90%"></div><span class="sk-pct">90%</span>
+              </div>
+              <p class="sk-desc">Full data lifecycle management across multiple stacks.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Network Fundamentals</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--grow">Growing</span><span
+                    class="sk-yrs">1y</span></div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:72%"></div><span class="sk-pct">72%</span>
+              </div>
+              <p class="sk-desc">TCP/IP, subnetting and basic network configuration.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">XAMPP</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Strong</span><span class="sk-yrs">2y</span>
+                </div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:82%"></div><span class="sk-pct">82%</span>
+              </div>
+              <p class="sk-desc">Local server environment for PHP/MySQL-based web projects.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Microsoft SQL Server</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Strong</span><span class="sk-yrs">1y</span>
+                </div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:76%"></div><span class="sk-pct">76%</span>
+              </div>
+              <p class="sk-desc">Enterprise database management, queries and stored procedures.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tools & DevOps -->
+        <div class="skills-panel" id="tab-tools">
+          <div class="skills-panel-header">
+            <span class="skills-panel-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"
+                  fill="currentColor" />
+              </svg></span>
+            <div>
+              <h3 class="skills-panel-title">Tools &amp; DevOps</h3>
+              <p class="skills-panel-sub">Developer tools, workflows and version control</p>
+            </div>
+          </div>
+          <div class="skills-grid">
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Git &amp; GitHub</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Advanced</span><span
+                    class="sk-yrs">2y</span></div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:85%"></div><span class="sk-pct">85%</span>
+              </div>
+              <p class="sk-desc">Version control, branching, pull requests and collaboration.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">VS Code</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--expert">Expert</span><span
+                    class="sk-yrs">3y</span></div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:95%"></div><span class="sk-pct">95%</span>
+              </div>
+              <p class="sk-desc">Primary IDE with extensions, shortcuts and debugging tools.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Command Line</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Strong</span><span class="sk-yrs">2y</span>
+                </div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:78%"></div><span class="sk-pct">78%</span>
+              </div>
+              <p class="sk-desc">File operations, scripts, pip, npm and server management.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Cloud Deployment</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--grow">Growing</span><span
+                    class="sk-yrs">1y</span></div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:70%"></div><span class="sk-pct">70%</span>
+              </div>
+              <p class="sk-desc">Vercel / Render deployment, env variables and CI basics.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Cursor</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Strong</span><span class="sk-yrs">1y</span>
+                </div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:82%"></div><span class="sk-pct">82%</span>
+              </div>
+              <p class="sk-desc">AI-powered code editor for faster, context-aware development.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Antigravity AI</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Strong</span><span class="sk-yrs">1y</span>
+                </div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:80%"></div><span class="sk-pct">80%</span>
+              </div>
+              <p class="sk-desc">Agentic AI coding assistant used for portfolio and project work.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Soft Skills -->
+        <div class="skills-panel" id="tab-soft">
+          <div class="skills-panel-header">
+            <span class="skills-panel-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"
+                  fill="currentColor" />
+              </svg></span>
+            <div>
+              <h3 class="skills-panel-title">Soft Skills</h3>
+              <p class="skills-panel-sub">People, process and professional excellence</p>
+            </div>
+          </div>
+          <div class="skills-grid">
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Problem Solving</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--expert">Advanced</span><span
+                    class="sk-yrs">4y</span></div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:88%"></div><span class="sk-pct">88%</span>
+              </div>
+              <p class="sk-desc">Analytical thinking and creative debugging under pressure.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Team Collaboration</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Strong</span><span class="sk-yrs">3y</span>
+                </div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:86%"></div><span class="sk-pct">86%</span>
+              </div>
+              <p class="sk-desc">Cross-functional teamwork and agile project participation.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Technical Documentation</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Strong</span><span class="sk-yrs">2y</span>
+                </div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:79%"></div><span class="sk-pct">79%</span>
+              </div>
+              <p class="sk-desc">Clear writing for reports, README files and system docs.</p>
+            </div>
+            <div class="sk-card">
+              <div class="sk-card-top"><span class="sk-name">Research &amp; Analysis</span>
+                <div class="sk-badges"><span class="sk-badge sk-badge--adv">Strong</span><span class="sk-yrs">3y</span>
+                </div>
+              </div>
+              <p class="sk-label">Proficiency</p>
+              <div class="sk-bar-wrap">
+                <div class="sk-bar" style="--sk:81%"></div><span class="sk-pct">81%</span>
+              </div>
+              <p class="sk-desc">Literature reviews, data gathering and synthesis for capstone.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ HOBBIES SECTION ░░ -->
+  <section id="hobbies" class="py-32 px-6 border-t border-[var(--border)]">
+    <div class="max-w-6xl mx-auto">
+      <div class="section-header reveal-item">
+        <span class="font-mono text-xs tracking-[0.3em] uppercase text-[var(--text-muted)]">03 /</span>
+        <h2 class="font-display text-4xl md:text-5xl font-light text-[var(--text-primary)] mt-2">Hobbies</h2>
+        <div class="w-16 h-px bg-[var(--border)] mt-4"></div>
+      </div>
+
+      <div class="mt-16 works-grid">
+
+        <!-- Gaming -->
+        <div class="hobby-card reveal-item" style="animation-delay:0.05s">
+          <div class="hobby-card-thumb">
+            <div class="hobby-imgs-strip">
+              <div class="hobby-img-slot">
+                <img src="/static/images/dota_logo.jpg" alt="Dota 2" class="hobby-img-contain" />
+              </div>
+              <div class="hobby-img-slot">
+                <img src="/static/images/csgo_logo.jpg" alt="CS:GO" class="hobby-img-contain" />
+              </div>
+              <div class="hobby-img-slot">
+                <img src="/static/images/stardew_logo.png" alt="Stardew Valley" class="hobby-img-contain" />
+              </div>
+            </div>
+            <div class="work-card-badges">
+              <span class="work-badge work-badge--type">01</span>
+            </div>
+          </div>
+          <div class="work-card-body">
+            <div class="hobby-title-row">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M21 6H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3-4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
+                  fill="currentColor" />
+              </svg>
+              <h3 class="work-card-title">Gaming</h3>
+            </div>
+            <p class="work-card-desc">I play games to unwind and be just me aimlessly, it's a key to my sanity
+              i play DOTA, CSGO2, and Stardew Valley.</p>
+          </div>
+        </div>
+
+        <!-- Reading Books -->
+        <div class="hobby-card reveal-item" style="animation-delay:0.1s">
+          <div class="hobby-card-thumb">
+            <div class="hobby-imgs-strip">
+              <div class="hobby-img-slot">
+                <img src="/static/images/searchformeaning_book.jpg" alt="Man's Search for Meaning"
+                  class="hobby-img-contain" />
+              </div>
+              <div class="hobby-img-slot">
+                <img src="/static/images/manfrommoscow_book.jpg" alt="Man from Moscow" class="hobby-img-contain" />
+              </div>
+              <div class="hobby-img-slot">
+                <img src="/static/images/nolongerhuman_book.jpg" alt="No Longer Human" class="hobby-img-contain" />
+              </div>
+            </div>
+            <div class="work-card-badges">
+              <span class="work-badge work-badge--type">02</span>
+            </div>
+          </div>
+          <div class="work-card-body">
+            <div class="hobby-title-row">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                <path d="M6 2v20l6-3 6 3V2H6zm2 3h8v12.06l-4-2-4 2V5z" fill="currentColor" />
+              </svg>
+              <h3 class="work-card-title">Reading Books</h3>
+            </div>
+            <p class="work-card-desc">I like reading for calmness and inner peace — storytelling, psychology, and
+              biography, novels, horror/thriller
+              books.</p>
+          </div>
+        </div>
+
+        <!-- Music -->
+        <div class="hobby-card reveal-item" style="animation-delay:0.15s">
+          <div class="hobby-card-thumb">
+            <div class="hobby-imgs-strip">
+              <div class="hobby-img-slot">
+                <img src="/static/images/jcole_album.jpg" alt="J. Cole" class="hobby-img-contain" />
+              </div>
+              <div class="hobby-img-slot">
+                <img src="/static/images/NF_album.jpg" alt="NF" class="hobby-img-contain" />
+              </div>
+              <div class="hobby-img-slot">
+                <img src="/static/images/neckdeep_album.jpg" alt="Neck Deep" class="hobby-img-contain" />
+              </div>
+            </div>
+            <div class="work-card-badges">
+              <span class="work-badge work-badge--type">03</span>
+            </div>
+          </div>
+          <div class="work-card-body">
+            <div class="hobby-title-row">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                <path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z" fill="currentColor" />
+              </svg>
+              <h3 class="work-card-title">Music</h3>
+            </div>
+            <p class="work-card-desc">Music helps my focus while designing and coding — it sets the mood for flow and
+              increases my productivity no cap xD.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ WORK / PROJECTS SECTION ░░ -->
+
+  <section id="works" class="py-32 px-6 border-t border-[var(--border)]">
+    <div class="max-w-6xl mx-auto">
+      <div class="section-header reveal-item">
+        <span class="font-mono text-xs tracking-[0.3em] uppercase text-[var(--text-muted)]">04 /</span>
+        <h2 class="font-display text-4xl md:text-5xl font-light text-[var(--text-primary)] mt-2">Works</h2>
+        <div class="w-16 h-px bg-[var(--border)] mt-4"></div>
+      </div>
+
+      <div class="mt-16 works-grid">
+        {% for w in works %}
+        <div class="work-card reveal-item" style="animation-delay: {{ loop.index0 * 0.08 }}s">
+
+          <!-- Thumbnail -->
+          <div class="work-card-thumb work-card-thumb--{{ w.type_badge }}">
+            <div class="work-card-thumb-glyph">
+              {% if w.type_badge == 'ml' %}◈
+              {% elif w.type_badge == 'web' %}◻
+              {% elif w.type_badge == 'system' %}⊞
+              {% elif w.type_badge == 'art' %}✦
+              {% else %}○{% endif %}
+            </div>
+            <div class="work-card-badges">
+              {% if w.featured %}<span class="work-badge work-badge--featured">★ Featured</span>{% endif %}
+              <span class="work-badge work-badge--type">{{ w.type_badge }}</span>
+            </div>
+          </div>
+
+          <!-- Body -->
+          <div class="work-card-body">
+            <div class="work-card-title-row">
+              <h3 class="work-card-title">{{ w.title }}</h3>
+              {% if w.year %}<span class="work-card-year">📅 {{ w.year }}</span>{% endif %}
+            </div>
+            <p class="work-card-desc">{{ w.desc }}</p>
+            <div class="work-card-tags">
+              {% for tag in w.tags[:3] %}
+              <span class="tag-chip-sm">{{ tag }}</span>
+              {% endfor %}
+              {% if w.tags | length > 3 %}
+              <span class="tag-chip-sm work-tag-more">+{{ w.tags | length - 3 }} more</span>
+              {% endif %}
+            </div>
+            <a href="{{ w.link }}" {% if w.link !='#' %}target="_blank" {% endif %} class="work-card-btn"
+              aria-label="{{ w.aria }}">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                {% if "behance" in w.link %}
+                <path
+                  d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6z"
+                  fill="currentColor" />
+                {% else %}
+                <path
+                  d="M12 .5A12 12 0 0 0 8.2 23.9c.6.1.8-.2.8-.6v-2.2c-3.4.8-4.1-1.5-4.1-1.5-.6-1.5-1.4-1.9-1.4-1.9-1.1-.8.1-.8.1-.8 1.3.1 1.9 1.3 1.9 1.3 1.1 1.9 2.9 1.4 3.6 1.1.1-.8.4-1.4.8-1.8-2.7-.3-5.6-1.4-5.6-6A4.7 4.7 0 0 1 5.4 8c-.1-.3-.6-1.6.1-3.3 0 0 1-.3 3.4 1.3a11.5 11.5 0 0 1 6.2 0c2.4-1.6 3.4-1.3 3.4-1.3.7 1.7.2 3 .1 3.3.8.9 1.3 2 1.3 3.3 0 4.7-2.9 5.7-5.7 6 .4.4.8 1.1.8 2.3v3.3c0 .4.2.7.8.6A12 12 0 0 0 12 .5Z"
+                  fill="currentColor" />
+                {% endif %}
+              </svg>
+              {% if "behance" in w.link %}Portfolio
+              {% elif w.link == "#" %}In Progress
+              {% else %}Code{% endif %}
+            </a>
+          </div>
+
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ ARTWORKS SECTION ░░ -->
+  <section id="artworks" class="py-32 px-6 border-t border-[var(--border)]">
+    <div class="max-w-6xl mx-auto">
+      <div class="section-header reveal-item">
+        <span class="font-mono text-xs tracking-[0.3em] uppercase text-[var(--text-muted)]">05 /</span>
+        <h2 class="font-display text-4xl md:text-5xl font-light text-[var(--text-primary)] mt-2">Artworks</h2>
+        <div class="w-16 h-px bg-[var(--border)] mt-4"></div>
+      </div>
+
+      <div class="mt-12 artworks-layout">
+        <div class="posters-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          <figure class="poster-item reveal-item">
+            <button class="poster-thumb-btn" type="button" data-poster-src="/static/images/artworks/noir-01.png"
+              data-poster-title="Noir" data-process-video="/static/videos/noir_process.mp4">
+              <img src="/static/images/artworks/noir-01.png" alt="Noir artwork" class="poster-img" />
+            </button>
+            <figcaption class="poster-meta">
+              <h3 class="poster-title">Noir</h3>
+              <p class="poster-quote">"A dark editorial composition exploring contrast, mystery, and typographic
+                tension."</p>
+            </figcaption>
+          </figure>
+          <figure class="poster-item reveal-item">
+            <button class="poster-thumb-btn" type="button" data-poster-src="/static/images/artworks/solemn-01.png"
+              data-poster-title="Solemn" data-process-video="/static/videos/solemn_process.mp4">
+              <img src="/static/images/artworks/solemn-01.png" alt="Solemn artwork"
+                class="poster-img poster-img--solemn" />
+            </button>
+            <figcaption class="poster-meta">
+              <h3 class="poster-title">Solemn</h3>
+              <p class="poster-quote">"A soft visual poem balancing calm tones, memory, and quiet emotional space."</p>
+            </figcaption>
+          </figure>
+          <figure class="poster-item reveal-item">
+            <button class="poster-thumb-btn" type="button" data-poster-src="/static/images/artworks/paranoia-01.jpg"
+              data-poster-title="Paranoia" data-process-video="/static/videos/paranoia_process.mp4">
+              <img src="/static/images/artworks/paranoia-01.jpg" alt="Paranoia artwork" class="poster-img" />
+            </button>
+            <figcaption class="poster-meta">
+              <h3 class="poster-title">Paranoia</h3>
+              <p class="poster-quote">"An expressive poster about distortion, uncertainty, and fragmented identity."</p>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- Artworks click hint -->
+      <div class="artworks-hint reveal-item" style="animation-delay:0.05s">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        </svg>
+        <path
+          d="M9 11.24V7.5a2.5 2.5 0 0 1 5 0v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6a1.5 1.5 0 0 0-3 0v10.32l-3.15-.95a1 1 0 0 0-.97.27L4.93 15 9 19.07C9.72 19.68 10.63 20 11.56 20H18c1.1 0 1.99-.8 2.1-1.89l.5-3.5c.1-.8-.35-1.59-1.1-1.74z"
+          fill="currentColor" />
+        </svg>
+        <span>Click any artwork to watch the creation process</span>
+      </div>
+
+      <div class="mt-12 reveal-item flex justify-center">
+        <a href="https://www.behance.net/eliasamaba1" target="_blank"
+          class="behance-btn emoji-burst-btn font-mono text-xs tracking-[0.2em] uppercase px-8 py-3.5 border border-[var(--border-hover)] text-[var(--text-primary)] hover:border-[var(--text-primary)] hover:bg-[var(--bg-card)] transition-all duration-300 inline-flex items-center gap-3">
+          Check Out More of My Artworks<span>↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Poster Modal -->
+  <div id="posterModal" class="poster-modal" aria-hidden="true">
+    <button id="posterModalClose" class="poster-modal-close" aria-label="Close poster preview">✕</button>
+    <div class="poster-modal-content">
+      <video id="posterModalVideo" class="poster-modal-video" controls preload="metadata">
+        <source id="posterModalVideoSource" src="" type="video/mp4" />
+      </video>
+      <p id="posterModalTitle" class="poster-modal-title"></p>
+    </div>
+  </div>
+
+  <!-- ░░ CONTACT SECTION ░░ -->
+  <section id="contact" class="py-32 px-6 border-t border-[var(--border)]">
+    <div class="max-w-6xl mx-auto">
+      <div class="section-header reveal-item">
+        <span class="font-mono text-xs tracking-[0.3em] uppercase text-[var(--text-muted)]">06 /</span>
+        <h2 class="font-display text-4xl md:text-5xl font-light text-[var(--text-primary)] mt-2">Contact</h2>
+        <div class="w-16 h-px bg-[var(--border)] mt-4"></div>
+      </div>
+
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+        <div class="reveal-item" style="animation-delay:0.1s">
+          <p class="font-display text-3xl md:text-4xl font-light italic text-[var(--text-primary)] leading-snug mb-8">
+            "Let's build something worth for sanity."
+          </p>
+          <p class="font-body text-sm font-light text-[var(--text-secondary)] leading-relaxed">
+            Whether it's a project collaboration, an internship opportunity, or just a conversation about type and code
+            — my inbox is always open.
+          </p>
+
+          <div class="mt-10 space-y-4">
+            <div class="contact-link">
+              <svg class="contact-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                  fill="currentColor" />
+              </svg>
+              <span
+                class="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--text-muted)] block mb-0.5">Email</span>
+              <span class="font-body text-sm text-[var(--text-primary)]">keneyias666@gmail.com</span>
+            </div>
+            <a href="https://github.com/keneyias666" target="_blank" class="contact-link group">
+              <svg class="contact-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 .5A12 12 0 0 0 8.2 23.9c.6.1.8-.2.8-.6v-2.2c-3.4.8-4.1-1.5-4.1-1.5-.6-1.5-1.4-1.9-1.4-1.9-1.1-.8.1-.8.1-.8 1.3.1 1.9 1.3 1.9 1.3 1.1 1.9 2.9 1.4 3.6 1.1.1-.8.4-1.4.8-1.8-2.7-.3-5.6-1.4-5.6-6A4.7 4.7 0 0 1 5.4 8c-.1-.3-.6-1.6.1-3.3 0 0 1-.3 3.4 1.3a11.5 11.5 0 0 1 6.2 0c2.4-1.6 3.4-1.3 3.4-1.3.7 1.7.2 3 .1 3.3.8.9 1.3 2 1.3 3.3 0 4.7-2.9 5.7-5.7 6 .4.4.8 1.1.8 2.3v3.3c0 .4.2.7.8.6A12 12 0 0 0 12 .5Z"
+                  fill="currentColor" />
+              </svg>
+              <span
+                class="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--text-muted)] block mb-0.5">GitHub</span>
+              <span
+                class="font-body text-sm text-[var(--text-primary)] group-hover:opacity-60 transition-opacity duration-300">github.com/keneyias666</span>
+            </a>
+            <a href="https://www.linkedin.com/in/kenette-elias-amaba-71aa5b3b9/" target="_blank"
+              class="contact-link group">
+              <svg class="contact-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M4.98 3.5a2.5 2.5 0 1 0 0 5.001A2.5 2.5 0 0 0 4.98 3.5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.6c0-1.3 0-3-1.9-3s-2.1 1.5-2.1 2.9V21h-4V9Z"
+                  fill="currentColor" />
+              </svg>
+              <span
+                class="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--text-muted)] block mb-0.5">LinkedIn</span>
+              <span
+                class="font-body text-sm text-[var(--text-primary)] group-hover:opacity-60 transition-opacity duration-300">linkedin.com/in/kenette-elias-amaba</span>
+            </a>
+            <a href="https://www.instagram.com/keneyias/" target="_blank" class="contact-link group">
+              <svg class="contact-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"
+                  fill="currentColor" />
+              </svg>
+              <span
+                class="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--text-muted)] block mb-0.5">Instagram</span>
+              <span
+                class="font-body text-sm text-[var(--text-primary)] group-hover:opacity-60 transition-opacity duration-300">instagram.com/keneyias</span>
+            </a>
+            <a href="https://www.facebook.com/keneyias" target="_blank" class="contact-link group">
+              <svg class="contact-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.696 4.533-4.696 1.312 0 2.686.236 2.686.236v2.97h-1.514c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"
+                  fill="currentColor" />
+              </svg>
+              <span
+                class="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--text-muted)] block mb-0.5">Facebook</span>
+              <span
+                class="font-body text-sm text-[var(--text-primary)] group-hover:opacity-60 transition-opacity duration-300">facebook.com/keneyias</span>
+            </a>
+            <a href="https://open.spotify.com/user/31yilc5ibrxm3fnkq5xgdm3xddoe" target="_blank"
+              class="contact-link group">
+              <svg class="contact-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 14.4a.63.63 0 0 1-.86.2c-2.35-1.43-5.32-1.75-8.81-.96a.62.62 0 1 1-.28-1.21c3.82-.87 7.1-.5 9.75 1.11.3.18.4.56.2.86zm1.24-2.76a.78.78 0 0 1-1.07.26c-2.69-1.65-6.79-2.13-9.97-1.17a.78.78 0 0 1-.45-1.5c3.64-1.1 8.17-.57 11.23 1.34a.78.78 0 0 1 .26 1.07zm.1-2.87C14.65 8.94 9.5 8.76 6.56 9.67a.94.94 0 1 1-.54-1.8c3.38-1.02 9.01-.82 12.56 1.35a.94.94 0 0 1-.7 1.75z"
+                  fill="currentColor" />
+              </svg>
+              <span
+                class="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--text-muted)] block mb-0.5">Spotify</span>
+              <span
+                class="font-body text-sm text-[var(--text-primary)] group-hover:opacity-60 transition-opacity duration-300">open.spotify.com/user/keneyias</span>
+            </a>
+            <a href="https://steamcommunity.com/id/elias666/" target="_blank" class="contact-link group">
+              <svg class="contact-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"
+                  fill="currentColor" />
+              </svg>
+              <span
+                class="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--text-muted)] block mb-0.5">Steam</span>
+              <span
+                class="font-body text-sm text-[var(--text-primary)] group-hover:opacity-60 transition-opacity duration-300">steamcommunity.com/id/keneyias666</span>
+            </a>
+          </div>
+
+          <div class="mt-12">
+            <a href="#hero"
+              class="font-mono text-[10px] tracking-[0.2em] uppercase text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors inline-flex items-center gap-2">
+              <span class="inline-block rotate-90">→</span> Back to Top
+            </a>
+          </div>
+        </div>
+
+        <!-- Floating Resume Card -->
+        <div class="reveal-item" style="animation-delay:0.2s">
+          <div class="resume-3d-scene">
+            <div class="resume-float-card" id="resumeCard" tabindex="0" role="button" aria-label="View resume">
+              <div class="resume-float-inner">
+                <div class="resume-float-preview">
+                  <img src="/static/images/elias resume.jpg" alt="Kenette Elias Amaba — Resume"
+                    class="resume-preview-img" />
+                  <div class="resume-float-overlay">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"
+                        fill="currentColor" />
+                    </svg>
+                    <span>View Resume</span>
+                  </div>
+                </div>
+                <div class="resume-float-body">
+                  <p class="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--text-muted)] mb-1">Curriculum
+                    Vitae</p>
+                  <h3 class="font-display text-xl font-light text-[var(--text-primary)] mb-2">Kenette Elias Amaba C.
+                  </h3>
+                  <p class="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-0">Full-stack developer &
+                    artist. Click the card to preview the full resume.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ RESUME LIGHTBOX ░░ -->
+  <div id="resumeLightbox" class="resume-lightbox" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="resume-lightbox-backdrop"></div>
+    <div class="resume-lightbox-content">
+      <div class="resume-lightbox-toolbar">
+        <span class="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--text-muted)]">Curriculum Vitae</span>
+        <div class="resume-lightbox-actions">
+          <a href="/static/images/elias-resume pdf.pdf" download="Kenette_Elias_Amaba_Resume.pdf" class="resume-lb-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" fill="currentColor" />
+            </svg> Download PDF
+          </a>
+          <button class="resume-lb-btn" onclick="window.open('/static/images/elias resume.png','_blank').print()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"
+                fill="currentColor" />
+            </svg> Print
+          </button>
+          <button class="resume-lb-btn resume-lb-close" id="resumeLightboxClose" aria-label="Close">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                fill="currentColor" />
+            </svg> Close
+          </button>
+        </div>
+      </div>
+      <img src="/static/images/elias resume.jpg" alt="Resume" class="resume-lightbox-img" />
+    </div>
+  </div>
+
+  <!-- ░░ FOOTER ░░ -->
+  <footer class="py-10 px-6 border-t border-[var(--border)]">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <span class="font-display text-lg font-light text-[var(--text-muted)]">KEA<span class="opacity-40">.</span></span>
+      <a href="#hero"
+        class="font-mono text-[10px] tracking-[0.2em] uppercase text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors">
+        <span class="inline-block rotate-90"></span></a>
+      <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-[var(--text-muted)]">© 2025 · Designed & Built
+        by Keneyias666</span>
+    </div>
+  </footer>
+
+  <!-- ░░ CHATBOT WIDGET ░░ -->
+  <div id="chatWidget" class="chat-widget" aria-hidden="true">
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <div class="flex items-center gap-3">
+        <div class="chat-avatar">
+          <span class="font-display text-sm font-semibold text-[var(--bg-primary)]">👾</span>
+        </div>
+        <div>
+          <p class="font-body text-sm font-medium text-[var(--text-primary)]">Portfolio Assistant</p>
+          <p class="font-mono text-[10px] tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
+            <span class="chat-status-dot"></span> Online
+          </p>
+        </div>
+      </div>
+      <button id="chatClose" class="chat-close-btn" aria-label="Close chat">✕</button>
+    </div>
+
+    <!-- Chat Messages -->
+    <div id="chatMessages" class="chat-messages">
+      <!-- Welcome message -->
+      <div class="chat-message chat-message--bot">
+        <div class="chat-bubble">
+          <p>Hi there! 👋🏼 I'm the portfolio assistant for this site. Ask me anything — about skills, projects,
+            experience, or how to get in touch.</p>
+        </div>
+        <span class="chat-timestamp">Just now</span>
+      </div>
+    </div>
+
+    <!-- Chat Input -->
+    <div class="chat-input-area">
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="Ask about skills, projects..." class="chat-input"
+          autocomplete="off" maxlength="500" />
+        <button id="chatSend" class="chat-send-btn" aria-label="Send message">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M14 8L2 2l2.5 6L2 14l12-6z" fill="currentColor" />
+          </svg>
+        </button>
+      </div>
+      <p class="font-mono text-[9px] tracking-wider uppercase text-[var(--text-muted)] mt-2 text-center opacity-60">
+        Powered by keneyias666</p>
+    </div>
+  </div>
+
+  <!-- Chat Fab Button -->
+  <button id="chatFab" class="chat-fab" aria-label="Open chat assistant">
+    <span class="chat-fab-icon chat-fab-icon--open">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <path
+          d="M11 2C6.03 2 2 5.69 2 10.2c0 2.5 1.24 4.72 3.2 6.24V20l3.53-1.94C9.84 18.34 10.41 18.4 11 18.4c4.97 0 9-3.69 9-8.2S15.97 2 11 2z"
+          fill="currentColor" />
+      </svg>
+    </span>
+    <span class="chat-fab-icon chat-fab-icon--close hidden">✕</span>
+    <span class="chat-fab-ping"></span>
+  </button>
+
+  <script src="/static/js/main.js"></script>
+</body>
+
+</html>

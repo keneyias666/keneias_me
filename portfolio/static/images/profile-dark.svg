@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500">
+  <defs>
+    <clipPath id="avatarClipD"><circle cx="250" cy="250" r="245"/></clipPath>
+    <radialGradient id="bgGradD" cx="35%" cy="30%">
+      <stop offset="0%" stop-color="#2a2a2a"/>
+      <stop offset="100%" stop-color="#0d0d0d"/>
+    </radialGradient>
+    <radialGradient id="rimLight" cx="80%" cy="20%">
+      <stop offset="0%" stop-color="#555555" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+  </defs>
+  <circle cx="250" cy="250" r="245" fill="url(#bgGradD)" stroke="#333333" stroke-width="1"/>
+  <circle cx="250" cy="250" r="245" fill="url(#rimLight)"/>
+  <circle cx="250" cy="250" r="210" fill="none" stroke="#2a2a2a" stroke-width="0.8" opacity="0.5"/>
+  <path d="M140 495 L175 365 L250 390 L325 365 L360 495 Z" fill="#f0f0f0" clip-path="url(#avatarClipD)"/>
+  <ellipse cx="250" cy="445" rx="140" ry="70" fill="#f0f0f0" clip-path="url(#avatarClipD)"/>
+  <rect x="218" y="302" width="64" height="58" rx="10" fill="#b8855e"/>
+  <ellipse cx="250" cy="248" rx="98" ry="108" fill="#b8855e"/>
+  <!-- Rim lighting on face -->
+  <ellipse cx="345" cy="240" rx="20" ry="70" fill="#d4a882" opacity="0.3"/>
+  <path d="M152 202 Q200 140 250 143 Q300 140 348 202 L348 195 Q310 145 250 142 Q190 145 152 195 Z" fill="#0f0908"/>
+  <ellipse cx="250" cy="175" rx="100" ry="65" fill="#0f0908"/>
+  <rect x="152" y="198" width="20" height="68" rx="10" fill="#0f0908"/>
+  <rect x="328" y="198" width="20" height="68" rx="10" fill="#0f0908"/>
+  <ellipse cx="153" cy="258" rx="14" ry="19" fill="#a07050"/>
+  <ellipse cx="347" cy="258" rx="14" ry="19" fill="#a07050"/>
+  <path d="M196 210 Q214 200 233 207" stroke="#0f0908" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+  <path d="M267 207 Q286 200 304 210" stroke="#0f0908" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+  <ellipse cx="215" cy="235" rx="20" ry="15" fill="#f0ece8"/>
+  <ellipse cx="285" cy="235" rx="20" ry="15" fill="#f0ece8"/>
+  <circle cx="216" cy="236" r="11" fill="#1e0e04"/>
+  <circle cx="286" cy="236" r="11" fill="#1e0e04"/>
+  <circle cx="217" cy="237" r="6" fill="#020202"/>
+  <circle cx="287" cy="237" r="6" fill="#020202"/>
+  <circle cx="220" cy="232" r="3" fill="white" opacity="0.9"/>
+  <circle cx="290" cy="232" r="3" fill="white" opacity="0.9"/>
+  <!-- Glasses with slight reflection in dark mode -->
+  <rect x="194" y="222" width="42" height="27" rx="8" fill="none" stroke="#888888" stroke-width="2.8"/>
+  <rect x="264" y="222" width="42" height="27" rx="8" fill="none" stroke="#888888" stroke-width="2.8"/>
+  <rect x="195" y="223" width="40" height="8" rx="4" fill="white" opacity="0.06"/>
+  <rect x="265" y="223" width="40" height="8" rx="4" fill="white" opacity="0.06"/>
+  <line x1="236" y1="235" x2="264" y2="235" stroke="#888888" stroke-width="2.2"/>
+  <line x1="152" y1="230" x2="194" y2="230" stroke="#888888" stroke-width="2"/>
+  <line x1="306" y1="230" x2="348" y2="230" stroke="#888888" stroke-width="2"/>
+  <path d="M243 255 Q235 276 242 286 Q250 292 258 286 Q265 276 257 255" stroke="#906040" stroke-width="2.2" fill="none"/>
+  <path d="M224 308 Q250 326 276 308" stroke="#806040" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+  <path d="M228 309 Q250 320 272 309" fill="#a05840" opacity="0.2"/>
+  <path d="M218 358 L238 332 L250 345 L262 332 L282 358" fill="none" stroke="#ccc" stroke-width="2.2"/>
+  <!-- Subtle glow around person -->
+  <ellipse cx="250" cy="290" rx="105" ry="165" fill="none" stroke="#555" stroke-width="0.5" opacity="0.3"/>
+</svg>
