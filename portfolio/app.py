@@ -22,11 +22,11 @@ def index():
     works = [
         {
             "num": "01",
-            "title": "SignBridge · Where Silence Finds a Voice",
+            "title": "Voice2Sign · Where Silence Finds a Voice",
             "desc": "Capstone: A 2-way real-time communication platform bridging deaf and hearing individuals — powered by Python, OpenCV, and machine learning for sign-language recognition.",
             "tags": ["Capstone", "Python", "OpenCV", "Machine Learning", "JS", "HTML/CSS"],
             "link": "#",
-            "aria": "Capstone project — SignBridge",
+            "aria": "Capstone project — Voice2Sign",
             "year": "2025",
             "type_badge": "ml",
             "featured": True,
