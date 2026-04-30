@@ -7,7 +7,7 @@ Built with **Python (Flask)** backend and **HTML + CSS + Tailwind** frontend.
 
 ---
 
-## ✨ Features
+##  Features
 
 - **Dark / Light mode** — remembers preference via localStorage, respects system preference
 - **Profile image swap** — smooth cross-fade + rotate animation between modes
@@ -20,7 +20,7 @@ Built with **Python (Flask)** backend and **HTML + CSS + Tailwind** frontend.
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ```bash
 # Clone the repo
@@ -42,7 +42,7 @@ python app.py
 
 ---
 
-## 🤖 Flowise Chatbot
+##  Flowise Chatbot
 
 The chatbot is powered by [Flowise](https://flowiseai.com) — an open-source visual LLM flow builder.
 
@@ -54,7 +54,7 @@ FLOWISE_API_URL = "https://cloud.flowiseai.com/api/v1/prediction/YOUR_CHATFLOW_I
 
 ---
 
-## 🎨 Customization
+##  Customization
 
 ### Update your info
 Edit `portfolio/templates/index.html` to update your name, projects, skills, and contact info.
@@ -98,8 +98,8 @@ keneias_me/
 
 ## 📝 License
 
-MIT — feel free to use it! A ⭐ on GitHub is always appreciated!
+MIT — feel free to use it! A  on GitHub is always appreciated!
 
 ---
 
-Built with ❤️ by [keneyias666](https://github.com/keneyias666)
+Built with gbas☁️ by [keneyias666](https://github.com/keneyias666)
