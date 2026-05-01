@@ -78,11 +78,11 @@ def index():
         {
             "num": "06",
             "title": "A Letter in Code · Love Proposal Web App",
-            "desc": "A heartfelt interactive web experience I built to court my girlfriend — featuring an animated journey, a mini fishing game she had to win, and a personalised email invitation to ask her on a date. Because some things deserve more than a text message.",
+            "desc": "A heartfelt interactive web experience — featuring an animated journey, a mini fishing game she had to win, and a personalised email invitation to ask her on a date. Because some things deserve more than a text message.",
             "tags": ["Web App", "HTML/CSS/JS", "EmailJS", "Interactive", "Personal Project"],
             "link": "https://github.com/keneyias666/love-proposal-mwe",
             "aria": "View Love Proposal Web App on GitHub",
-            "year": "2021",
+            "year": "2025",
             "type_badge": "web",
             "featured": True,
         },
