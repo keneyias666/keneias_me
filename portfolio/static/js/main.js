@@ -302,3 +302,62 @@
   closeBtn  && closeBtn.addEventListener('click', closeLightbox);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
 })();
+
+/* ── Mobile Menu ───────────────────────────────────────────────── */
+(function () {
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenuDrawer = document.getElementById('mobileMenuDrawer');
+  const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+  const chatToggleMobile = document.getElementById('chatToggleMobile');
+
+  function openMobileMenu() {
+    if (mobileMenuDrawer) mobileMenuDrawer.classList.add('is-open');
+    if (mobileMenuOverlay) {
+      mobileMenuOverlay.classList.add('is-visible');
+      mobileMenuOverlay.style.display = 'block';
+    }
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMobileMenu() {
+    if (mobileMenuDrawer) mobileMenuDrawer.classList.remove('is-open');
+    if (mobileMenuOverlay) {
+      mobileMenuOverlay.classList.remove('is-visible');
+      setTimeout(() => {
+        if (mobileMenuOverlay && !mobileMenuOverlay.classList.contains('is-visible')) {
+          mobileMenuOverlay.style.display = 'none';
+        }
+      }, 300);
+    }
+    document.body.style.overflow = '';
+  }
+
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', () => {
+      if (mobileMenuDrawer && mobileMenuDrawer.classList.contains('is-open')) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
+    });
+  }
+
+  if (mobileMenuOverlay) {
+    mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+  }
+
+  mobileNavLinks.forEach(link => {
+    link.addEventListener('click', closeMobileMenu);
+  });
+
+  // Also toggle mobile chat button
+  if (chatToggleMobile && document.getElementById('chatWidget')) {
+    chatToggleMobile.addEventListener('click', () => {
+      closeMobileMenu();
+      setTimeout(() => {
+        document.getElementById('chatWidget').classList.add('is-open');
+      }, 350);
+    });
+  }
+})();

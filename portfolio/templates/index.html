@@ -64,8 +64,8 @@
         </span>
       </a>
 
-      <!-- Nav Links -->
-      <div class="hidden md:flex items-center gap-10">
+      <!-- Nav Links (Desktop) -->
+      <div class="nav-desktop-links hidden md:flex items-center gap-10">
         <a href="#hero"
           class="nav-link font-mono text-xs tracking-[0.2em] uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-300">Home</a>
         <a href="#about"
@@ -84,6 +84,12 @@
 
       <!-- Right Controls -->
       <div class="flex items-center gap-4">
+        <!-- Mobile Menu Button -->
+        <button id="mobileMenuBtn" class="mobile-menu-btn p-2" aria-label="Open menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
         <!-- Chat Toggle -->
         <button id="chatToggleNav"
           class="font-mono text-xs tracking-[0.15em] uppercase px-4 py-2 border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--text-primary)] transition-all duration-300 rounded-sm">
@@ -99,6 +105,19 @@
       </div>
     </div>
   </nav>
+
+  <!-- Mobile Menu Drawer -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+  <div class="nav-mobile-drawer" id="mobileMenuDrawer">
+    <a href="#hero" class="mobile-nav-link">Home</a>
+    <a href="#about" class="mobile-nav-link">About</a>
+    <a href="#skills" class="mobile-nav-link">Skills</a>
+    <a href="#hobbies" class="mobile-nav-link">Hobbies</a>
+    <a href="#works" class="mobile-nav-link">Works</a>
+    <a href="#artworks" class="mobile-nav-link">Artworks</a>
+    <a href="#contact" class="mobile-nav-link">Contact</a>
+    <button id="chatToggleMobile" class="font-mono text-xs tracking-[0.15em] uppercase px-4 py-2 border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--text-primary)] transition-all duration-300 rounded-sm mt-4">Chat</button>
+  </div>
 
   <!-- ░░ HERO SECTION ░░ -->
   <section id="hero" class="min-h-screen flex items-center pt-20 px-6 max-w-6xl mx-auto">
