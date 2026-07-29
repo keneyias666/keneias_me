@@ -5,8 +5,6 @@
   const html = document.documentElement;
   const body = document.body;
   const themeToggle = document.getElementById('themeToggle');
-  const cursorDot = document.getElementById('cursorDot');
-  const cursorRing = document.getElementById('cursorRing');
   const leafTransition = document.getElementById('leafTransition');
   const profileContainer = document.querySelector('.profile-container');
   const posterModal = document.getElementById('posterModal');
@@ -49,30 +47,6 @@
         profileContainer.classList.add('is-swish');
         setTimeout(() => profileContainer.classList.remove('is-swish'), 700);
       }
-    });
-  }
-
-  const finePointer = window.matchMedia('(pointer: fine)').matches;
-  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
-  if (finePointer && cursorDot && cursorRing) {
-    cursorDot.classList.add('is-visible');
-    cursorRing.classList.add('is-visible');
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursorDot.style.left = `${mouseX}px`;
-      cursorDot.style.top = `${mouseY}px`;
-    });
-    (function animateRing() {
-      ringX += (mouseX - ringX) * 0.14;
-      ringY += (mouseY - ringY) * 0.14;
-      cursorRing.style.left = `${ringX}px`;
-      cursorRing.style.top = `${ringY}px`;
-      requestAnimationFrame(animateRing);
-    })();
-    document.querySelectorAll('a, button').forEach((el) => {
-      el.addEventListener('mouseenter', () => cursorRing.classList.add('is-hovering'));
-      el.addEventListener('mouseleave', () => cursorRing.classList.remove('is-hovering'));
     });
   }
 
