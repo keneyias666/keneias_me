@@ -64,7 +64,7 @@ Edit CSS variables in `portfolio/static/css/style.css`.
 
 ---
 
-## ☁️ Deployment
+##  Deployment
 
 ### Render.com (Recommended)
 1. Push code to GitHub
@@ -78,7 +78,7 @@ Edit CSS variables in `portfolio/static/css/style.css`.
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 keneias_me/
@@ -96,10 +96,10 @@ keneias_me/
 
 ---
 
-## 📝 License
+##  License
 
 MIT — feel free to use it! A  on GitHub is always appreciated!
 
 ---
 
-Built with gbas☁️ by [keneyias666](https://github.com/keneyias666)
+Built with gbas by [keneyias666](https://github.com/keneyias666)
