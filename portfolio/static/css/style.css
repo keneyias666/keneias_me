@@ -2037,26 +2037,6 @@ body.is-loading .reveal-scroll {
 }
 
 @media (max-width: 767px) {
-  body {
-    cursor: auto;
-  }
-
-  *,
-  a,
-  button,
-  input,
-  textarea,
-  select,
-  label {
-    cursor: auto !important;
-  }
-
-  .cursor-dot,
-  .cursor-ring,
-  .leaf-transition {
-    display: none;
-  }
-
   .precipitation-overlay {
     opacity: 0.1;
   }
