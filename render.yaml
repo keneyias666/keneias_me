@@ -4,4 +4,3 @@ services:
     env: python
     buildCommand: cd portfolio && pip install -r requirements.txt
     startCommand: cd portfolio && gunicorn app:app
-
