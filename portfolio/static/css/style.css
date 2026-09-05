@@ -1839,8 +1839,8 @@ body {
   text-align: left;
 }
 
-.terminal_user { color: #1eff8e; }
-[data-theme="light"] .terminal_user { color: #15803d; }
+.terminal_user { color: #ff8c1a; }
+[data-theme="light"] .terminal_user { color: #c2410c; }
 
 .terminal_location { color: #4878c0; }
 [data-theme="light"] .terminal_location { color: #1d4ed8; }
@@ -1856,8 +1856,8 @@ body {
   transform: translateY(-50%);
   height: 14px;
   width: 2px;
-  background: #1eff8e;
-  box-shadow: 0 0 6px rgba(30, 255, 142, 0.6);
+  background: #ff8c1a;
+  box-shadow: 0 0 6px rgba(255, 140, 26, 0.65);
   animation: curbl 1100ms steps(2) infinite;
   pointer-events: none;
   /* Default position when empty (right after the $ prompt). */
@@ -1866,8 +1866,8 @@ body {
 }
 
 [data-theme="light"] .terminal_cursor {
-  background: #15803d;
-  box-shadow: 0 0 6px rgba(21, 128, 61, 0.5);
+  background: #c2410c;
+  box-shadow: 0 0 6px rgba(194, 65, 12, 0.55);
 }
 
 @keyframes curbl {
