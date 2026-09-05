@@ -161,8 +161,9 @@
   if (posterModal) posterModal.addEventListener('click', (e) => { if (e.target === posterModal) closePosterModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePosterModal(); });
 
-  // simple chat controls (if widget exists)
-  if (chatWidget && chatFab && chatClose && chatToggleNav) {
+  // Chat controls. Only require the widget + fab + close to init — the
+  // nav and mobile toggles are optional and added independently if present.
+  if (chatWidget && chatFab && chatClose) {
     let chatOpen = false;
     const openChat = () => {
       chatOpen = true;
@@ -176,7 +177,20 @@
     };
     chatFab.addEventListener('click', () => (chatOpen ? closeChatWidget() : openChat()));
     chatClose.addEventListener('click', closeChatWidget);
-    chatToggleNav.addEventListener('click', () => (chatOpen ? closeChatWidget() : openChat()));
+    if (chatToggleNav) {
+      chatToggleNav.addEventListener('click', () => (chatOpen ? closeChatWidget() : openChat()));
+    }
+    const chatToggleMobile = document.getElementById('chatToggleMobile');
+    if (chatToggleMobile) {
+      chatToggleMobile.addEventListener('click', () => {
+        // Close the mobile drawer first, then open the chat after the slide-out.
+        const drawer = document.getElementById('mobileMenuDrawer');
+        const overlay = document.getElementById('mobileMenuOverlay');
+        if (drawer) drawer.classList.remove('is-open');
+        if (overlay) overlay.classList.remove('is-visible');
+        setTimeout(() => openChat(), 200);
+      });
+    }
 
     if (chatSend && chatInput && chatMessages) {
       const time = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
