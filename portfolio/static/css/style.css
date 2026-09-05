@@ -756,30 +756,30 @@ body {
     filter 0.9s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Dark mode: dark img visible, light img hidden */
+/* Dark mode: light img visible, dark img hidden (light profile on dark UI) */
 [data-theme="dark"] .profile-img--light {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+  filter: blur(0);
+}
+
+[data-theme="dark"] .profile-img--dark {
   opacity: 0;
   transform: scale(0.95) rotate(-2deg);
   filter: blur(4px);
 }
 
-[data-theme="dark"] .profile-img--dark {
-  opacity: 1;
-  transform: scale(1) rotate(0deg);
-  filter: blur(0);
-}
-
-/* Light mode: light img visible, dark img hidden */
+/* Light mode: dark img visible, light img hidden (dark profile on light UI) */
 [data-theme="light"] .profile-img--light {
-  opacity: 1;
-  transform: scale(1) rotate(0deg);
-  filter: blur(0);
-}
-
-[data-theme="light"] .profile-img--dark {
   opacity: 0;
   transform: scale(0.95) rotate(2deg);
   filter: blur(4px);
+}
+
+[data-theme="light"] .profile-img--dark {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+  filter: blur(0);
 }
 
 /* Decorative ring around profile */
