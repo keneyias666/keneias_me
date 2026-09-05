@@ -35,6 +35,9 @@
   }
 
   body.classList.add('is-loading');
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    body.classList.add('reduce-motion');
+  }
   applyTheme(getTheme(), false);
 
   if (themeToggle) {
@@ -98,6 +101,9 @@
   // process video modal
   function openPosterModal(videoSrc, title) {
     if (!posterModal || !posterModalVideo || !posterModalVideoSource || !posterModalTitle) return;
+    const fallback = document.getElementById('posterModalFallback');
+    if (fallback) fallback.hidden = true;
+    posterModalVideo.poster = '';
     posterModalVideoSource.src = videoSrc || '/static/videos/artwork-process.mp4';
     posterModalVideo.load();
     posterModalVideo.currentTime = 0;
@@ -117,6 +123,22 @@
     }
     posterModal.classList.remove('is-open');
     posterModal.setAttribute('aria-hidden', 'true');
+  }
+
+  // graceful fallback if a process video is missing or fails to load
+  if (posterModalVideo) {
+    posterModalVideo.addEventListener('error', () => {
+      const trigger = document.querySelector('.poster-thumb-btn:focus') ||
+        document.querySelector('.poster-thumb-btn');
+      const stillSrc = trigger && trigger.getAttribute('data-poster-src');
+      const fallback = document.getElementById('posterModalFallback');
+      if (stillSrc) {
+        posterModalVideo.poster = stillSrc;
+        posterModalVideo.removeAttribute('src');
+        posterModalVideo.load();
+      }
+      if (fallback) fallback.hidden = false;
+    });
   }
   document.querySelectorAll('.poster-thumb-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -256,25 +278,73 @@
 
   const backdrop = lightbox.querySelector('.resume-lightbox-backdrop');
   const closeBtn = document.getElementById('resumeLightboxClose');
+  let lastFocus = null;
 
-  function openLightbox() {
+  function focusableInLightbox() {
+    return Array.from(
+      lightbox.querySelectorAll(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter((el) => !el.hasAttribute('hidden') && el.offsetParent !== null);
+  }
+
+  function openLightbox(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    lastFocus = document.activeElement;
     lightbox.classList.add('is-open');
     lightbox.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => closeBtn && closeBtn.focus());
   }
-  function closeLightbox() {
+  function closeLightbox(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     lightbox.classList.remove('is-open');
     lightbox.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    if (lastFocus && typeof lastFocus.focus === 'function') {
+      lastFocus.focus();
+    }
   }
 
+  // Use both pointerdown and click, with preventDefault on pointerdown, so
+  // the click never propagates to anything that might think the button is
+  // an anchor or might cause a navigation/scroll.
+  card.addEventListener('pointerdown', (e) => e.preventDefault());
   card.addEventListener('click', openLightbox);
-  card.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(); }
+
+  // Capture-phase listener so we get the close before any ancestor that
+  // might also handle the click.
+  if (backdrop) {
+    backdrop.addEventListener('click', closeLightbox, true);
+  }
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeLightbox, true);
+  }
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('is-open')) return;
+    if (e.key === 'Escape') {
+      closeLightbox();
+      return;
+    }
+    if (e.key !== 'Tab') return;
+    const items = focusableInLightbox();
+    if (items.length === 0) return;
+    const first = items[0];
+    const last  = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
   });
-  backdrop  && backdrop.addEventListener('click', closeLightbox);
-  closeBtn  && closeBtn.addEventListener('click', closeLightbox);
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
 })();
 
 /* ── Mobile Menu ───────────────────────────────────────────────── */
@@ -335,3 +405,39 @@
     });
   }
 })();
+
+/* ── Design Reel Ambient ──────────────────────────────────────── */
+/* The webm is a fixed, autoplaying, muted, looped backdrop behind the
+   whole page. All the heavy lifting is in CSS. The only thing JS has to
+   do is gently nudge playback on the first user interaction (some
+   browsers block silent autoplay on first paint), and fall back to a
+   first-frame poster on error. */
+(function () {
+  const reel = document.getElementById('reelAmbient');
+  if (!reel) return;
+
+  const tryPlay = () => {
+    const p = reel.play();
+    if (p && typeof p.catch === 'function') p.catch(() => {});
+  };
+
+  // First user interaction usually satisfies autoplay policies. After
+  // any of these, we retry play once. After that, the video is in the
+  // autoplay-allowed state and will keep looping on its own.
+  const nudge = () => {
+    tryPlay();
+    document.removeEventListener('pointerdown', nudge);
+    document.removeEventListener('keydown', nudge);
+    document.removeEventListener('touchstart', nudge);
+  };
+  document.addEventListener('pointerdown', nudge, { once: true, passive: true });
+  document.addEventListener('keydown', nudge, { once: true });
+  document.addEventListener('touchstart', nudge, { once: true, passive: true });
+
+  // If the source is missing or can't decode, hide the video and let
+  // the page's solid background read as the design.
+  reel.addEventListener('error', () => {
+    reel.style.display = 'none';
+  });
+})();
+

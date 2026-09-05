@@ -681,14 +681,16 @@ body {
   position: absolute;
   bottom: -2px;
   left: 0;
-  width: 0;
+  width: 100%;
   height: 1px;
   background: var(--accent-2);
-  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-link:hover::after {
-  width: 100%;
+  transform: scaleX(1);
 }
 
 .season-nav-link.is-active {
@@ -1247,7 +1249,7 @@ body {
   color: var(--text-secondary);
   padding: 10px 0 12px;
   border-bottom: 1px solid var(--border);
-  transition: color 0.3s, padding-left 0.3s;
+  transition: color 0.3s, transform 0.3s;
   cursor: default;
   position: relative;
   z-index: 1;
@@ -1259,7 +1261,7 @@ body {
 
 .skill-item:hover {
   color: var(--text-primary);
-  padding-left: 8px;
+  transform: translateX(8px);
 }
 
 .skill-meter-top {
@@ -1371,11 +1373,11 @@ body {
   gap: 24px;
   align-items: center;
   padding: 24px 0;
-  transition: padding 0.3s;
+  transition: transform 0.3s;
 }
 
 .project-row:hover .project-row-inner {
-  padding-left: 8px;
+  transform: translateX(8px);
 }
 
 .project-num {
@@ -1598,47 +1600,6 @@ body {
   opacity: 0.7;
 }
 
-/* Typing indicator */
-.chat-typing {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  padding: 10px 14px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  width: fit-content;
-}
-
-.chat-typing span {
-  width: 6px;
-  height: 6px;
-  background: var(--text-muted);
-  border-radius: 50%;
-  animation: typing-bounce 1.4s ease-in-out infinite;
-}
-
-.chat-typing span:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.chat-typing span:nth-child(3) {
-  animation-delay: 0.4s;
-}
-
-@keyframes typing-bounce {
-
-  0%,
-  80%,
-  100% {
-    transform: translateY(0);
-  }
-
-  40% {
-    transform: translateY(-6px);
-  }
-}
-
 .chat-input-area {
   padding: 14px 16px;
   border-top: 1px solid var(--border);
@@ -1810,19 +1771,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-/* Subtle grid lines on all thumbs */
-.work-card-thumb::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(122, 162, 172, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(122, 162, 172, 0.06) 1px, transparent 1px);
-  background-size: 28px 28px;
-  pointer-events: none;
-  z-index: 1;
 }
 
 /* Type-specific gradient backgrounds */
@@ -2523,7 +2471,7 @@ body.is-loading .reveal-scroll {
   overflow: hidden;
   background: var(--bg-card);
   transform-style: preserve-3d;
-  transform: rotateY(-6deg) rotateX(3deg) translateZ(0);
+  transform: rotateY(-3deg) rotateX(1.5deg) translateZ(0);
   box-shadow:
     0 2px 0px 0 rgba(255, 255, 255, 0.06) inset,
     0 -2px 0px 0 rgba(0, 0, 0, 0.18) inset,
@@ -2710,18 +2658,23 @@ body.is-loading .reveal-scroll {
 .resume-lightbox {
   position: fixed;
   inset: 0;
-  z-index: 9000;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;            /* must beat chat widget, chat fab, modal, and every section */
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
 }
 
 .resume-lightbox.is-open {
   opacity: 1;
-  pointer-events: all;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.3s ease, visibility 0s linear 0s;
 }
 
 .resume-lightbox-backdrop {
@@ -2745,7 +2698,7 @@ body.is-loading .reveal-scroll {
   overflow: hidden;
   background: var(--bg-card);
   transform: translateY(20px) scale(0.97);
-  transition: transform 0.3s cubic-bezier(.22, .68, 0, 1.2);
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .resume-lightbox.is-open .resume-lightbox-content {
@@ -2854,7 +2807,7 @@ body.is-loading .reveal-scroll {
 }
 
 .edu-title {
-  font-family: 'Instrument Serif', serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: 18px;
   font-weight: 400;
   color: var(--text-primary);
@@ -2874,6 +2827,268 @@ body.is-loading .reveal-scroll {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-muted);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   VINTAGE SYSTEM — Halftone · Sepia · Rubber Stamps · Paper
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Vintage tokens — applied alongside the existing palette.
+   Light: warm cream + faded ink. Dark: ambered black + aged paper. */
+:root,
+[data-theme="dark"] {
+  --paper: #1a1410;
+  --paper-edge: #2a1f17;
+  --ink-aged: #d8b78a;
+  --ink-rust: #b07a4a;
+  --ink-faded: rgba(216, 183, 138, 0.32);
+  --sepia: rgba(176, 122, 74, 0.12);
+  --sepia-strong: rgba(176, 122, 74, 0.28);
+  --stamp-ink: #c66a4a;
+  --stamp-ink-soft: rgba(198, 106, 74, 0.62);
+  --reel-opacity: 0.48;   /* how much the ambient video shows through (clearly visible) */
+  --reel-tint: rgba(20, 14, 8, 0.46); /* base wash over the video */
+  --reel-section-wash: rgba(10, 10, 10, 0.55); /* backing for each section card so text reads */
+}
+
+[data-theme="light"] {
+  --paper: #f4ece0;
+  --paper-edge: #e6d8c0;
+  --ink-aged: #5a3a22;
+  --ink-rust: #8a4a28;
+  --ink-faded: rgba(90, 58, 34, 0.30);
+  --sepia: rgba(138, 74, 40, 0.10);
+  --sepia-strong: rgba(138, 74, 40, 0.22);
+  --stamp-ink: #a83a1c;
+  --stamp-ink-soft: rgba(168, 58, 28, 0.65);
+  --reel-opacity: 0.42;
+  --reel-tint: rgba(244, 236, 224, 0.46);
+  --reel-section-wash: rgba(250, 250, 250, 0.72);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN REEL AMBIENT BACKDROP
+   A fixed, autoplaying, muted, looped video that runs behind the
+   entire page as a design element. Never pauses. Never clickable.
+   All vintage treatment (sepia, halftone, light leak, vignette,
+   grain) is layered in CSS — no JS or controls.
+   ═══════════════════════════════════════════════════════════════ */
+
+.reel-ambient {
+  position: fixed;
+  inset: 0;
+  z-index: -1;            /* sit behind everything in the page */
+  pointer-events: none;   /* never intercept clicks */
+  overflow: hidden;
+  background: var(--bg-primary);
+  /* Subtle ambient drift — the whole field breathes very slowly.
+     Honors reduce-motion below. */
+  animation: ambient-drift 32s ease-in-out infinite alternate;
+}
+
+/* The video itself — covers the viewport like a backdrop, never tiled. */
+.reel-ambient__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  /* Lighter sepia so frames read clearly through the wash. */
+  filter: sepia(0.30) saturate(1.00) contrast(1.04) brightness(0.95)
+          hue-rotate(-5deg);
+  opacity: var(--reel-opacity);
+  transform: scale(1.06); /* slight over-zoom so the slow pan reveals edges */
+}
+
+[data-theme="light"] .reel-ambient__video {
+  filter: sepia(0.20) saturate(1.04) contrast(1.02) brightness(0.99)
+          hue-rotate(-3deg);
+}
+
+/* Sepia wash — a solid tinted layer that blends with the video to
+   lock the ambient color to the page palette. Sits ON TOP of the
+   video so the page above reads as part of the same film. */
+.reel-ambient__sepia {
+  position: absolute;
+  inset: 0;
+  background: var(--reel-tint);
+  mix-blend-mode: normal;
+  pointer-events: none;
+}
+
+/* Halftone dot field — gives the ambient its newsprint/film texture */
+.reel-ambient__halftone {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(currentColor 0.9px, transparent 1.4px);
+  background-size: 5px 5px;
+  color: var(--ink-aged);
+  opacity: 0.10;
+  mix-blend-mode: overlay;
+}
+
+[data-theme="light"] .reel-ambient__halftone {
+  opacity: 0.14;
+}
+
+/* Light leak — a soft warm gradient that drifts across the backdrop
+   like a projector breathing. Subtle, slow, ambient. */
+.reel-ambient__leak {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 90% at 18% 45%,
+      var(--sepia-strong) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 80% at 82% 55%,
+      var(--sepia) 0%, transparent 65%),
+    radial-gradient(ellipse 30% 60% at 50% 100%,
+      var(--sepia-strong) 0%, transparent 70%);
+  mix-blend-mode: soft-light;
+  animation: ambient-leak 18s ease-in-out infinite alternate;
+}
+
+[data-theme="light"] .reel-ambient__leak {
+  mix-blend-mode: multiply;
+}
+
+/* Vignette — soft edges that focus the eye on the center of the page
+   but still let the webm show clearly at the borders. */
+.reel-ambient__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 105% 85% at 50% 50%,
+      transparent 58%,
+      color-mix(in srgb, var(--bg-primary) 56%, transparent) 100%);
+  mix-blend-mode: multiply;
+}
+
+[data-theme="light"] .reel-ambient__vignette {
+  background:
+    radial-gradient(ellipse 105% 85% at 50% 50%,
+      transparent 62%,
+      color-mix(in srgb, var(--paper) 50%, transparent) 100%);
+  mix-blend-mode: multiply;
+}
+
+/* Grain — a final noisy overlay that pairs with the existing
+   .grain-overlay to add movement. Slight blur keeps it tactile. */
+.reel-ambient__grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: ambient-grain 1.4s steps(6) infinite;
+}
+
+@keyframes ambient-drift {
+  0% {
+    transform: scale(1.0) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: scale(1.02) translate3d(-0.6%, -0.4%, 0);
+  }
+}
+
+@keyframes ambient-leak {
+  0% {
+    transform: translate3d(-1.5%, 0, 0) scale(1.0);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate3d(1.5%, -0.8%, 0) scale(1.04);
+    opacity: 1;
+  }
+}
+
+@keyframes ambient-grain {
+  0%   { transform: translate(0, 0); }
+  20%  { transform: translate(-1.5%, 1%); }
+  40%  { transform: translate(1%, -1%); }
+  60%  { transform: translate(-0.8%, 1.4%); }
+  80%  { transform: translate(1.2%, -0.6%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Reduce-motion: keep the video paused on its first frame instead of
+   playing animation. We don't hide it — the still frame still reads as
+   a vintage backdrop. The page's existing reduce-motion media query
+   also turns off the drift, leak, and grain animations. */
+body.reduce-motion .reel-ambient,
+body.reduce-motion .reel-ambient__leak,
+body.reduce-motion .reel-ambient__grain {
+  animation: none !important;
+}
+
+/* Hero section lifts above the ambient — keeps the portrait and copy
+   readable. The ambient is still visible at the page edges. */
+#hero {
+  position: relative;
+  z-index: 1;
+}
+
+/* The body is the stage. The video sits fixed at z: -1; sections sit
+   above at z: 1 with their own wash that makes text readable while
+   the webm stays clearly visible at the page edges and between cards. */
+body {
+  background-color: var(--bg-primary);
+  position: relative;
+}
+
+body::before {
+  /* Sepia film wash — sits OVER the video but UNDER the content. It
+     tints the whole page warm/cool to match the design palette and
+     keeps the webm unmistakably present while letting the page read. */
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: var(--reel-tint);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Every section + the nav + the chat widget sit above the wash */
+section,
+nav,
+.chat-widget,
+.chat-fab,
+.leaf-transition,
+footer,
+#posterModal,
+#resumeLightbox {
+  position: relative;
+  z-index: 1;
+}
+
+/* Atmospheric mode — sections sit on the body wash with no extra
+   backing, so the webm's tinted field reads through the whole page
+   as a soft film wash. Text holds contrast because the body wash
+   itself is 0.78/0.86 opaque. */
+section {
+  background: transparent;
+  box-shadow: none;
+}
+
+#hero {
+  background: transparent;
+  box-shadow: none;
+}
+
+section.border-t {
+  border-top-color: var(--border) !important;
+}
+
+/* The grain + precipitation overlays stay above the wash too */
+.grain-overlay,
+.precipitation-overlay {
+  z-index: 2;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -3275,4 +3490,44 @@ html {
 body {
   max-width: 100vw;
   overflow-x: hidden;
+}
+
+/* ── Reduced motion: respect user preference ─────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .resume-float-card,
+  .resume-float-card:hover,
+  .resume-float-card:active {
+    transform: none !important;
+  }
+  .reveal-scroll,
+  .reveal-item,
+  .reveal-scroll.is-visible {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .scroll-line,
+  .profile-ring,
+  .leaf-emoji,
+  .grain-overlay,
+  .hint-pulse,
+  .art-card,
+  .art-img,
+  .skill-bar span,
+  .reel-ambient,
+  .reel-ambient__leak,
+  .reel-ambient__grain {
+    animation: none !important;
+    transition: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Hard override for the body class set in main.js as a belt-and-braces. */
+body.reduce-motion .resume-float-card,
+body.reduce-motion .resume-float-card:hover {
+  transform: none !important;
 }
