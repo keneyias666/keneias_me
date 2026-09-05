@@ -218,6 +218,21 @@
     };
     chatFab.addEventListener('click', () => (chatOpen ? closeChatWidget() : openChat()));
     chatClose.addEventListener('click', closeChatWidget);
+
+    // Escape closes the chat when it has focus or is open. Skip if the
+    // user is typing in a real input/textarea elsewhere on the page.
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || !chatOpen) return;
+      const active = document.activeElement;
+      const tag = active && active.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || (active && active.isContentEditable)) {
+        // If focus is on the chat input itself, Escape still closes the chat.
+        if (active !== chatInput) return;
+      }
+      e.preventDefault();
+      closeChatWidget();
+      if (chatFab) chatFab.focus();
+    });
     if (chatToggleNav) {
       chatToggleNav.addEventListener('click', () => (chatOpen ? closeChatWidget() : openChat()));
     }
