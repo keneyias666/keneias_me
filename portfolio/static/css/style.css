@@ -3054,15 +3054,14 @@ body::before {
   z-index: 0;
 }
 
-/* Every section + the nav + the chat widget sit above the wash */
+/* Every section + the nav + the leaf-transition + the footer sit above
+   the wash. Fixed-position elements (.chat-widget, .chat-fab, the poster
+   modal, the resume lightbox) keep their own positioning — do NOT apply
+   position:relative to them or they lose their fixed anchor. */
 section,
 nav,
-.chat-widget,
-.chat-fab,
 .leaf-transition,
-footer,
-#posterModal,
-#resumeLightbox {
+footer {
   position: relative;
   z-index: 1;
 }
