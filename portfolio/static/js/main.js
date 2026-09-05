@@ -318,6 +318,72 @@
           if (e.target === prompt) chatInput.focus();
         });
       }
+
+      // Track the blinking caret against the actual typed text width.
+      // We create a hidden clone span with the same font + size as the
+      // input, fill it with the current value, read its width, and
+      // absolutely position the existing .terminal_cursor there.
+      const cursor = document.querySelector('.terminal_prompt .terminal_cursor');
+      if (cursor && chatInput) {
+        const measure = document.createElement('span');
+        measure.setAttribute('aria-hidden', 'true');
+        measure.style.cssText = `
+          position: absolute;
+          visibility: hidden;
+          white-space: pre;
+          pointer-events: none;
+          left: -9999px;
+          top: 0;
+        `;
+        const inputStyle = getComputedStyle(chatInput);
+        measure.style.font = inputStyle.font;
+        measure.style.letterSpacing = inputStyle.letterSpacing;
+        measure.style.fontFamily = inputStyle.fontFamily;
+        measure.style.fontSize = inputStyle.fontSize;
+        measure.style.fontWeight = inputStyle.fontWeight;
+        document.body.appendChild(measure);
+
+        const positionCaret = () => {
+          const promptRect = prompt.getBoundingClientRect();
+          const promptStyle = getComputedStyle(prompt);
+          const padLeft = parseFloat(promptStyle.paddingLeft) || 0;
+          // Find the $ prompt glyph so we can start the caret after it.
+          const dollarEl = prompt.querySelector('.terminal_user');
+          const dollarRect = dollarEl ? dollarEl.getBoundingClientRect() : null;
+          // End of $ + 6px gap (the flex gap on .terminal_prompt).
+          const startX = (dollarRect ? dollarRect.right - promptRect.left : 0) + 6;
+          // Measure the typed text width.
+          measure.textContent = chatInput.value || ' ';
+          const textW = measure.offsetWidth;
+          // Right-edge clamp: if the typed text overflows the visible
+          // input, pin the caret to the right edge of the input.
+          const inputRect = chatInput.getBoundingClientRect();
+          const inputRight = inputRect.right - promptRect.left;
+          const inputLeft = inputRect.left - promptRect.left;
+          const visibleRight = inputRight - 4; // 4px breathing room
+          let caretX = startX + textW;
+          if (caretX > visibleRight) caretX = visibleRight;
+          if (caretX < inputLeft) caretX = inputLeft;
+          cursor.style.left = caretX + 'px';
+        };
+
+        chatInput.addEventListener('input', positionCaret);
+        chatInput.addEventListener('keydown', positionCaret);
+        chatInput.addEventListener('focus', positionCaret);
+        chatInput.addEventListener('blur', () => {
+          cursor.style.opacity = '0';
+        });
+        chatInput.addEventListener('focus', () => {
+          cursor.style.opacity = '';
+        });
+        // Re-measure when fonts load or the prompt resizes.
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(positionCaret);
+        }
+        window.addEventListener('resize', positionCaret);
+        // Initial position (handles the empty state + restored text).
+        requestAnimationFrame(positionCaret);
+      }
     }
   }
 
