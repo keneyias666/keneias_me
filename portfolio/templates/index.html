@@ -187,16 +187,50 @@
       <!-- Profile Image Side -->
       <div class="hero-image-wrap order-1 md:order-2 flex justify-center md:justify-end reveal-item"
         style="animation-delay:0.15s">
-        <div class="profile-container">
+
+        <!-- Status pip above the ring -->
+        <div class="profile-status" aria-hidden="true">
+          <span class="profile-status__dot"></span>
+          <span class="profile-status__label">AVAILABLE · BSIT '27</span>
+        </div>
+
+        <div class="profile-container" id="profileContainer">
+          <!-- Soft warm glow that breathes -->
+          <div class="profile-glow" aria-hidden="true"></div>
+
+          <!-- Tachymeter ring (tick marks + indicator dot + name arc) -->
+          <div class="profile-tachymeter" aria-hidden="true">
+            <svg viewBox="0 0 400 400" class="profile-tachymeter__svg">
+              <!-- 12 tick marks every 30° around the ring -->
+              <g class="profile-tachymeter__ticks" stroke="currentColor" stroke-linecap="round">
+                <line x1="200" y1="6"  x2="200" y2="18"  stroke-width="1.5" />
+                <line x1="285" y1="27" x2="278" y2="37"  stroke-width="1"   />
+                <line x1="346" y1="78" x2="335" y2="84"  stroke-width="1"   />
+                <line x1="373" y1="156" x2="361" y2="158" stroke-width="1"  />
+                <line x1="346" y1="234" x2="335" y2="228" stroke-width="1"  />
+                <line x1="285" y1="285" x2="278" y2="275" stroke-width="1"  />
+                <line x1="200" y1="306" x2="200" y2="294" stroke-width="1.5"/>
+                <line x1="115" y1="285" x2="122" y2="275" stroke-width="1"  />
+                <line x1="54"  y1="234" x2="65"  y2="228" stroke-width="1"  />
+                <line x1="27"  y1="156" x2="39"  y2="158" stroke-width="1"  />
+                <line x1="54"  y1="78"  x2="65"  y2="84"  stroke-width="1"  />
+                <line x1="115" y1="27"  x2="122" y2="37"  stroke-width="1"  />
+              </g>
+              <circle class="profile-tachymeter__indicator" cx="200" cy="20" r="4" />
+            </svg>
+            <span class="profile-tachymeter__name">KENETTE ELIAS</span>
+          </div>
+
           <!-- Light image (shown in dark mode) -->
           <img src="/static/images/profilelight.png" alt="Profile photo - dark mode"
             class="profile-img profile-img--light" id="profileLight" />
           <!-- Dark image (shown in light mode) -->
           <img src="/static/images/profiledark.png" alt="Profile photo - light mode"
             class="profile-img profile-img--dark" id="profileDark" />
-          <!-- Decorative ring -->
+
+          <!-- Existing slow-spinning decorative ring -->
           <div class="profile-ring" aria-hidden="true"></div>
-          <!-- Corner accent -->
+          <!-- Corner brackets -->
           <div class="profile-accent-tl" aria-hidden="true"></div>
           <div class="profile-accent-br" aria-hidden="true"></div>
         </div>
@@ -1343,49 +1377,46 @@
     </div>
   </footer>
 
-  <!-- ░░ CHATBOT WIDGET ░░ -->
+  <!-- ░░ CHATBOT WIDGET (terminal console) ░░ -->
   <div id="chatWidget" class="chat-widget" aria-hidden="true">
-    <!-- Chat Header -->
-    <div class="chat-header">
-      <div class="flex items-center gap-3">
-        <div class="chat-avatar" aria-label="Portfolio assistant avatar">
-          <span class="font-display text-sm font-semibold text-[var(--bg-primary)]" aria-hidden="true">👾</span>
+    <div class="container">
+      <!-- Window chrome: traffic-light dots + tab title + close -->
+      <div class="terminal_toolbar">
+        <div class="butt">
+          <button class="btn" aria-label="minimize"></button>
+          <button class="btn btn-color" aria-label="maximize"></button>
+          <button class="btn butt--exit" id="chatClose" aria-label="Close chat"></button>
         </div>
-        <div>
-          <p class="font-body text-sm font-medium text-[var(--text-primary)]">Portfolio Assistant</p>
-          <p class="font-mono text-[10px] tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
-            <span class="chat-status-dot"></span> Online
-          </p>
-        </div>
+        <span class="user">keneyias_assistant ~ /chat</span>
+        <div style="width: 52px;"></div>
       </div>
-      <button id="chatClose" class="chat-close-btn" aria-label="Close chat">✕</button>
-    </div>
 
-    <!-- Chat Messages -->
-    <div id="chatMessages" class="chat-messages">
-      <!-- Welcome message -->
-      <div class="chat-message chat-message--bot">
-        <div class="chat-bubble">
-          <p>Hi there! 👋🏼 I'm the portfolio assistant for this site. Ask me anything — about skills, projects,
-            experience, or how to get in touch.</p>
+      <!-- Terminal body: scrollable output + prompt with input -->
+      <div class="terminal_body">
+        <div id="chatMessages" class="terminal_output">
+          <div class="chat-message chat-message--bot">
+            <p class="output_text">
+              <span class="terminal_user">[sys]</span>
+              <span class="terminal_bling"> assistant.boot</span>
+              <span class="terminal_location"> ~ /kenette/portfolio</span>
+            </p>
+            <p class="output_text terminal_bling" style="margin-top: 4px;">
+              hi there 👋🏼 i'm the portfolio assistant. ask me anything — skills, projects, experience, contact.
+            </p>
+            <p class="output_text" style="margin-top: 4px;">
+              <span class="terminal_user">$</span>
+              <span class="terminal_bling"> type a question and press ↵</span>
+            </p>
+          </div>
         </div>
-        <span class="chat-timestamp">Just now</span>
-      </div>
-    </div>
 
-    <!-- Chat Input -->
-    <div class="chat-input-area">
-      <div class="chat-input-row">
-        <input type="text" id="chatInput" placeholder="Ask about skills, projects..." class="chat-input"
-          autocomplete="off" maxlength="500" />
-        <button id="chatSend" class="chat-send-btn" aria-label="Send message">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M14 8L2 2l2.5 6L2 14l12-6z" fill="currentColor" />
-          </svg>
-        </button>
+        <div class="terminal_prompt terminal_input">
+          <span class="terminal_user">$</span>
+          <input type="text" id="chatInput" class="input_text" placeholder="ask something..." autocomplete="off"
+            maxlength="500" />
+          <span class="terminal_cursor" aria-hidden="true"></span>
+        </div>
       </div>
-      <p class="font-mono text-[9px] tracking-wider uppercase text-[var(--text-muted)] mt-2 text-center opacity-60">
-        Powered by keneyias666</p>
     </div>
   </div>
 

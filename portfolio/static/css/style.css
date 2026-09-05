@@ -942,6 +942,104 @@ body {
   transition: border-color 0.7s;
 }
 
+/* ── Status pip above the avatar ────────────────────────────── */
+.profile-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg-elevated) 70%, transparent);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  align-self: center;
+  margin-left: auto;
+  margin-right: auto;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.profile-status__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent), 0 0 2px var(--accent-strong);
+  animation: status-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.85); }
+}
+
+/* ── Soft warm glow behind the portrait ─────────────────────── */
+.profile-glow {
+  position: absolute;
+  inset: -30px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%,
+      var(--accent-soft) 0%,
+      transparent 60%);
+  filter: blur(20px);
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: -1;
+  animation: glow-breathe 6s ease-in-out infinite;
+}
+
+@keyframes glow-breathe {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50%      { opacity: 0.95; transform: scale(1.04); }
+}
+
+/* ── Tachymeter ring (ticks + indicator + name arc) ──────────── */
+.profile-tachymeter {
+  position: absolute;
+  inset: -22px;
+  pointer-events: none;
+  z-index: 4;
+  animation: spin-slow 60s linear infinite;
+  color: var(--accent-2);
+}
+
+.profile-tachymeter__svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+}
+
+.profile-tachymeter__ticks {
+  opacity: 0.85;
+}
+
+.profile-tachymeter__indicator {
+  fill: var(--accent);
+  filter: drop-shadow(0 0 6px var(--accent-strong));
+}
+
+.profile-tachymeter__name {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.42em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+  /* Counter the parent's slow spin so the text stays upright. */
+  animation: spin-slow 60s linear infinite reverse;
+}
+
 /* ── Scroll Indicator ───────────────────────────────────────── */
 .scroll-indicator {
   position: absolute;
@@ -1570,26 +1668,24 @@ body {
   animation: pulse-dot 2.5s ease-in-out infinite;
 }
 
-/* ── Chatbot Widget ──────────────────────────────────────────── */
+/* ── Chatbot Widget (terminal / console UI) ──────────────────── */
 .chat-widget {
   position: fixed;
   bottom: 90px;
   right: 24px;
-  width: 360px;
-  max-height: 520px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 24px 60px var(--shadow);
+  width: 400px;
+  max-height: 540px;
+  background: transparent;
+  border: none;
+  box-shadow: 0 24px 80px -10px var(--shadow);
   z-index: 1000;
+  border-radius: 5px;
+  overflow: hidden;
   transform: translateY(20px) scale(0.95);
   opacity: 0;
   pointer-events: none;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    background 0.7s, border-color 0.7s;
+    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .chat-widget.is-open {
@@ -1598,7 +1694,7 @@ body {
   pointer-events: all;
 }
 
-@media (max-width: 420px) {
+@media (max-width: 460px) {
   .chat-widget {
     right: 12px;
     left: 12px;
@@ -1607,165 +1703,193 @@ body {
   }
 }
 
-.chat-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 18px;
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-  transition: border-color 0.7s;
-}
-
-.chat-avatar {
-  width: 34px;
-  height: 34px;
-  background: var(--text-primary);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: background 0.7s;
-}
-
-.chat-status-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  background: var(--accent-2);
-  border-radius: 50%;
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-
-.chat-close-btn {
-  font-size: 12px;
-  color: var(--text-muted);
-  cursor: pointer;
-  background: none;
-  border: none;
-  outline: none;
-  padding: 4px 8px;
-  transition: color 0.3s;
-}
-
-.chat-close-btn:hover {
+/* Container: blurred glass with the terminal framing */
+.chat-widget .container {
+  width: 100%;
+  height: 540px;
+  background: color-mix(in srgb, var(--bg-elevated) 70%, transparent);
+  font-family: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+  font-size: 12.5px;
+  line-height: 1.5;
   color: var(--text-primary);
-}
-
-.chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  overflow: hidden;
+  backdrop-filter: blur(20px) saturate(1.25);
+  -webkit-backdrop-filter: blur(20px) saturate(1.25);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  transition: border-color 0.7s ease, background 0.7s ease;
+}
+
+/* Toolbar / window chrome */
+.terminal_toolbar {
+  display: flex;
+  height: 30px;
+  align-items: center;
+  padding: 0 8px;
+  box-sizing: border-box;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background: color-mix(in srgb, var(--bg-secondary) 88%, transparent);
+  border-bottom: 1px solid var(--border);
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.terminal_toolbar .butt {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.terminal_toolbar .btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  font-size: 0;
+  height: 12px;
+  width: 12px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 100%;
+  background: linear-gradient(#7d7871 0%, #595953 100%);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 1px 0 #41403a, 0 1px 1px 0 #474642;
+  cursor: pointer;
+}
+
+.terminal_toolbar .btn:hover { filter: brightness(1.15); }
+.terminal_toolbar .btn:focus { outline: none; }
+
+.terminal_toolbar .butt--exit {
+  background: linear-gradient(#f37458 0%, #de4c12 100%);
+}
+
+/* Tab title in the chrome */
+.terminal_toolbar .user {
+  color: var(--text-secondary);
+  margin-left: 6px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  line-height: 15px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Body: scrollable transcript + bottom prompt with input */
+.terminal_body {
+  background: color-mix(in srgb, var(--bg-primary) 78%, transparent);
+  height: calc(100% - 30px);
+  margin-top: -1px;
+  font-size: 12px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Transcript: scrollable, with padding */
+.terminal_output {
+  padding: 10px 12px;
+  flex-grow: 1;
+  overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
 }
 
-.chat-message {
+.terminal_output::-webkit-scrollbar { width: 6px; }
+.terminal_output::-webkit-scrollbar-track { background: transparent; }
+.terminal_output::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.terminal_output::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
+
+.terminal_output .output_text {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.terminal_output .chat-message { max-width: 100%; }
+.terminal_output .chat-message + .chat-message { margin-top: 10px; }
+
+/* Prompt: $ + input + blinking caret */
+.terminal_prompt {
   display: flex;
-  flex-direction: column;
-  max-width: 88%;
+  align-items: center;
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg-secondary) 60%, transparent);
+  flex-shrink: 0;
 }
 
-.chat-message--bot {
-  align-self: flex-start;
+.terminal_prompt span {
+  margin-left: 4px;
 }
 
-.chat-message--user {
-  align-self: flex-end;
-  align-items: flex-end;
+.terminal_user { color: #1eff8e; margin: 0; }
+[data-theme="light"] .terminal_user { color: #15803d; }
+
+.terminal_location { color: #4878c0; margin: 0; }
+[data-theme="light"] .terminal_location { color: #1d4ed8; }
+
+.terminal_bling { color: var(--text-secondary); margin: 0; }
+
+/* Blinking caret */
+.terminal_cursor {
+  display: inline-block;
+  height: 14px;
+  width: 6px;
+  margin-left: 6px;
+  background: #1eff8e;
+  animation: curbl 1100ms steps(2) infinite;
+  flex-shrink: 0;
 }
 
-.chat-bubble {
-  padding: 10px 14px;
-  border-radius: 2px;
-  font-size: 13px;
-  font-weight: 300;
-  line-height: 1.55;
-  transition: background 0.7s;
+[data-theme="light"] .terminal_cursor { background: #15803d; }
+
+@keyframes curbl {
+  0%   { opacity: 1; }
+  50%  { opacity: 1; }
+  51%  { opacity: 0; }
+  100% { opacity: 0; }
 }
 
-.chat-message--bot .chat-bubble {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+/* Input itself */
+.terminal_input .input_text {
+  flex: 1;
+  width: 100%;
+  padding: 4px 6px;
+  background: transparent;
+  border: none;
   color: var(--text-primary);
+  caret-color: transparent; /* we draw our own caret */
+  font-family: inherit;
+  font-size: 12.5px;
+  outline: none;
 }
 
-.chat-message--user .chat-bubble {
-  background: var(--text-primary);
-  color: var(--bg-primary);
-}
-
-.chat-timestamp {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.1em;
+.terminal_input .input_text::placeholder {
   color: var(--text-muted);
-  margin-top: 4px;
   opacity: 0.7;
 }
 
-.chat-input-area {
-  padding: 14px 16px;
-  border-top: 1px solid var(--border);
-  flex-shrink: 0;
-  transition: border-color 0.7s;
-}
+/* Hide the original send button — the console uses ↵ */
+.chat-send-btn { display: none; }
 
-.chat-input-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+/* Typing indicator dots */
+.terminal-dots i {
+  display: inline-block;
+  font-style: normal;
+  animation: dot-blink 1.2s steps(1) infinite;
+  opacity: 0.3;
 }
+.terminal-dots i:nth-child(2) { animation-delay: 0.2s; }
+.terminal-dots i:nth-child(3) { animation-delay: 0.4s; }
 
-.chat-input {
-  flex: 1;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  color: var(--text-primary);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 300;
-  padding: 9px 12px;
-  border-radius: 2px;
-  outline: none;
-  transition: border-color 0.3s, background 0.7s;
-}
-
-.chat-input::placeholder {
-  color: var(--text-muted);
-  font-size: 12px;
-}
-
-.chat-input:focus {
-  border-color: var(--border-hover);
-}
-
-.chat-send-btn {
-  width: 36px;
-  height: 36px;
-  background: var(--text-primary);
-  color: var(--bg-primary);
-  border: none;
-  border-radius: 2px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: opacity 0.3s, background 0.7s;
-}
-
-.chat-send-btn:hover {
-  opacity: 0.75;
-}
-
-.chat-send-btn:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
+@keyframes dot-blink {
+  0%, 60% { opacity: 0.3; }
+  30%     { opacity: 1; }
 }
 
 /* ── FAB (Floating Action Button) ────────────────────────────── */
@@ -2527,8 +2651,11 @@ body.is-loading .reveal-scroll {
 .hobby-imgs-strip {
   display: flex;
   width: 100%;
-  height: 200px;
+  height: 240px;
   background: var(--bg-secondary);
+  padding: 12px 10px;
+  gap: 10px;
+  box-sizing: border-box;
 }
 
 .hobby-img-slot {
@@ -2537,32 +2664,48 @@ body.is-loading .reveal-scroll {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: var(--bg-secondary);
-  padding: 10px 8px;
+  background: color-mix(in srgb, var(--bg-primary) 78%, transparent);
+  border: 1px solid var(--border);
   position: relative;
-  transition: background 0.3s;
+  transition: border-color 0.3s, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  border-radius: 2px;
 }
 
 /* subtle divider between slots */
 .hobby-img-slot+.hobby-img-slot {
-  border-left: 1px solid var(--border);
+  margin-left: 0;
 }
 
 .hobby-img-contain {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
   display: block;
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.18));
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.4s ease;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.22))
+    contrast(1.02) saturate(0.96);
 }
 
 .hobby-card:hover .hobby-img-slot {
-  background: color-mix(in srgb, var(--accent-soft) 25%, var(--bg-secondary));
+  border-color: var(--border-hover);
+}
+
+.hobby-card:hover .hobby-img-slot:nth-child(1) {
+  transform: translateY(-3px) rotate(-1.2deg);
+}
+.hobby-card:hover .hobby-img-slot:nth-child(2) {
+  transform: translateY(-5px) scale(1.04);
+}
+.hobby-card:hover .hobby-img-slot:nth-child(3) {
+  transform: translateY(-3px) rotate(1.2deg);
 }
 
 .hobby-card:hover .hobby-img-contain {
-  transform: scale(1.06);
+  transform: scale(1.04);
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.32))
+    contrast(1.05) saturate(1.02);
 }
 
 

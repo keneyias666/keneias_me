@@ -63,6 +63,47 @@
     });
   });
 
+  // ── Avatar parallax: the portrait follows the cursor with a small
+  // offset and a smooth ease. Off on touch / reduced-motion.
+  (function () {
+    const profile = document.getElementById('profileContainer');
+    if (!profile) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia && window.matchMedia('(hover: none)').matches) return; // touch devices
+
+    let raf = 0;
+    let tx = 0, ty = 0;        // target
+    let cx = 0, cy = 0;        // current (eased)
+    const MAX = 6;             // px max offset
+
+    const onMove = (e) => {
+      const rect = profile.getBoundingClientRect();
+      const cx0 = rect.left + rect.width / 2;
+      const cy0 = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx0) / (rect.width / 2);
+      const dy = (e.clientY - cy0) / (rect.height / 2);
+      tx = Math.max(-1, Math.min(1, dx)) * MAX * -1;
+      ty = Math.max(-1, Math.min(1, dy)) * MAX * -1;
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    const onLeave = () => {
+      tx = 0; ty = 0;
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    const tick = () => {
+      cx += (tx - cx) * 0.08;
+      cy += (ty - cy) * 0.08;
+      profile.style.transform = `translate3d(${cx.toFixed(2)}px, ${cy.toFixed(2)}px, 0)`;
+      if (Math.abs(tx - cx) > 0.05 || Math.abs(ty - cy) > 0.05) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        raf = 0;
+      }
+    };
+    window.addEventListener('pointermove', onMove, { passive: true });
+    profile.addEventListener('pointerleave', onLeave);
+  })();
+
   function spawnEmojiBurst(x, y, emoji, color) {
     if (!leafTransition) return;
     for (let i = 0; i < 12; i++) {
@@ -192,24 +233,67 @@
       });
     }
 
-    if (chatSend && chatInput && chatMessages) {
+    if (chatInput && chatMessages) {
+      // Terminal-style message rendering. User prompts render with
+      // '> user ~ /chat' and a '>' glyph; bot replies render with
+      // '[sys] assistant' tag and the body in 'bling' (neutral) color.
+      const escape = (s) => String(s).replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
       const time = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      const addMsg = (txt, role) => {
+
+      const addUserMsg = (txt) => {
         const wrap = document.createElement('div');
-        wrap.className = `chat-message chat-message--${role}`;
-        wrap.innerHTML = `<div class="chat-bubble"></div><span class="chat-timestamp">${time()}</span>`;
-        wrap.querySelector('.chat-bubble').textContent = txt;
+        wrap.className = 'chat-message chat-message--user';
+        wrap.innerHTML = `
+          <p class="output_text">
+            <span class="terminal_user">[${escape(time())}]</span>
+            <span class="terminal_bling"> user</span>
+            <span class="terminal_location"> ~ /chat</span>
+            <span class="terminal_bling"> $</span>
+            <span class="terminal_bling"> ${escape(txt)}</span>
+          </p>`;
         chatMessages.appendChild(wrap);
         chatMessages.scrollTop = chatMessages.scrollHeight;
       };
+
+      const addBotMsg = (txt) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'chat-message chat-message--bot';
+        wrap.innerHTML = `
+          <p class="output_text">
+            <span class="terminal_user">[${escape(time())}]</span>
+            <span class="terminal_bling"> </span>
+            <span class="terminal_user">[sys]</span>
+            <span class="terminal_bling"> assistant</span>
+          </p>
+          <p class="output_text terminal_bling" style="margin-top: 4px;">${escape(txt)}</p>`;
+        chatMessages.appendChild(wrap);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      };
+
+      const addTyping = () => {
+        const wrap = document.createElement('div');
+        wrap.className = 'chat-message chat-message--bot chat-typing';
+        wrap.innerHTML = `
+          <p class="output_text">
+            <span class="terminal_user">[sys]</span>
+            <span class="terminal_bling"> assistant</span>
+            <span class="terminal_location"> ~ /chat</span>
+            <span class="terminal_bling"> thinking</span>
+            <span class="terminal_bling"> <span class="terminal-dots"><i>.</i><i>.</i><i>.</i></span></span>
+          </p>`;
+        chatMessages.appendChild(wrap);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        return wrap;
+      };
+
       let busy = false;
       const send = async () => {
         const q = chatInput.value.trim();
         if (!q || busy) return;
         busy = true;
-        chatSend.disabled = true;
         chatInput.value = '';
-        addMsg(q, 'user');
+        addUserMsg(q);
+        const typingEl = addTyping();
         try {
           const res = await fetch('/api/chat', {
             method: 'POST',
@@ -217,21 +301,29 @@
             body: JSON.stringify({ question: q }),
           });
           const data = await res.json();
-          addMsg(data.answer || 'Sorry, I could not process that.', 'bot');
+          typingEl.remove();
+          addBotMsg(data.answer || 'sorry, i could not process that.');
         } catch (_) {
-          addMsg('⚠️ Connection error. Please try again.', 'bot');
+          typingEl.remove();
+          addBotMsg('⚠️  connection error. please try again.');
         } finally {
           busy = false;
-          chatSend.disabled = false;
+          chatInput.focus();
         }
       };
-      chatSend.addEventListener('click', send);
       chatInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault();
           send();
         }
       });
+      // Click anywhere on the prompt to focus the input
+      const prompt = document.querySelector('.terminal_input');
+      if (prompt) {
+        prompt.addEventListener('click', (e) => {
+          if (e.target === prompt) chatInput.focus();
+        });
+      }
     }
   }
 
