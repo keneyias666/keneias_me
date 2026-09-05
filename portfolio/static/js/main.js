@@ -5,6 +5,7 @@
   const html = document.documentElement;
   const body = document.body;
   const themeToggle = document.getElementById('themeToggle');
+  const themeToggleFloating = document.getElementById('themeToggleFloating');
   const leafTransition = document.getElementById('leafTransition');
   const profileContainer = document.querySelector('.profile-container');
   const posterModal = document.getElementById('posterModal');
@@ -32,6 +33,10 @@
     }
     html.setAttribute('data-theme', theme);
     localStorage.setItem(STORAGE_KEY, theme);
+    // Keep every switch in sync with the current theme.
+    const isLight = theme === 'light';
+    const switches = document.querySelectorAll('.ui-switch input[type="checkbox"]');
+    switches.forEach((sw) => { sw.checked = isLight; });
   }
 
   body.classList.add('is-loading');
@@ -40,9 +45,14 @@
   }
   applyTheme(getTheme(), false);
 
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  // Wire every theme switch (nav + floating bottom-left). They are
+  // checkboxes now, so we listen for 'change' and sync them.
+  const themeSwitches = document.querySelectorAll('.ui-switch input[type="checkbox"]');
+  themeSwitches.forEach((sw) => {
+    sw.addEventListener('change', (e) => {
+      // Checked = light, unchecked = dark (light is the "checked" state
+      // because the sun is the "on" choice).
+      const next = e.target.checked ? 'light' : 'dark';
       applyTheme(next, true);
       if (profileContainer) {
         profileContainer.classList.remove('is-swish');
@@ -51,7 +61,7 @@
         setTimeout(() => profileContainer.classList.remove('is-swish'), 700);
       }
     });
-  }
+  });
 
   function spawnEmojiBurst(x, y, emoji, color) {
     if (!leafTransition) return;
