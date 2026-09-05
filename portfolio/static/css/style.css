@@ -4,49 +4,52 @@
    ═══════════════════════════════════════════════════════════════ */
 
 /* ── CSS Variables (Themes) ─────────────────────────────────── */
+/* Recommended minimal palette: "paper & ink" (light) and
+   "midnight paper" (dark). One warm clay accent, the same hue
+   across both modes, used sparingly. Tied to the editorial world. */
 :root,
 [data-theme="dark"] {
-  /* Smokey white ground — dominant #f5f5f5 with cool gray-blue surface tones. */
-  --bg-primary: #f5f5f5;
-  --bg-secondary: #e8ebef;
-  --bg-elevated: #ffffff;
-  --bg-card: #ececec;
-  --text-primary: #15171c;
-  --text-secondary: #2a2f38;
-  --text-muted: #5a6068;
-  --text-accent: #4d8eff;
-  --accent: #4d8eff;
-  --accent-2: #4d8eff;
-  --accent-soft: rgba(77, 142, 255, 0.18);
-  --accent-strong: rgba(77, 142, 255, 0.45);
-  --border: #c8ccd2;
-  --border-hover: #4d8eff;
-  --shadow: rgba(20, 24, 30, 0.22);
-  --grain-opacity: 0.03;
-  --section-wash: rgba(245, 245, 245, 0.86);
-  --card-wash: rgba(255, 255, 255, 0.92);
+  /* Midnight paper — deep cool charcoal ground, warm clay accent. */
+  --bg-primary: #16181d;
+  --bg-secondary: #1d2026;
+  --bg-elevated: #23272f;
+  --bg-card: #1a1d23;
+  --text-primary: #f1ede4;
+  --text-secondary: #c4beb1;
+  --text-muted: #6c6862;
+  --text-accent: #c87a4a;
+  --accent: #c87a4a;
+  --accent-2: #c87a4a;
+  --accent-soft: rgba(200, 122, 74, 0.18);
+  --accent-strong: rgba(200, 122, 74, 0.45);
+  --border: #2c3038;
+  --border-hover: #c87a4a;
+  --shadow: rgba(0, 0, 0, 0.55);
+  --grain-opacity: 0.05;
+  --section-wash: rgba(22, 24, 29, 0.78);
+  --card-wash: rgba(35, 39, 47, 0.85);
 }
 
 [data-theme="light"] {
-  /* Light blue ground — #add8e6 dominant with sky-tinted surface tones. */
-  --bg-primary: #add8e6;
-  --bg-secondary: #9cc4d3;
-  --bg-elevated: #c8e2ec;
-  --bg-card: #b8d8e3;
-  --text-primary: #0e1a24;
-  --text-secondary: #243240;
-  --text-muted: #4f5d68;
-  --text-accent: #1e6aa8;
-  --accent: #1e6aa8;
-  --accent-2: #1e6aa8;
-  --accent-soft: rgba(30, 106, 168, 0.18);
-  --accent-strong: rgba(30, 106, 168, 0.45);
-  --border: #88b6c8;
-  --border-hover: #1e6aa8;
-  --shadow: rgba(15, 30, 45, 0.22);
+  /* Paper & ink — warm off-white paper, near-black ink, clay accent. */
+  --bg-primary: #f4f1ea;
+  --bg-secondary: #ebe6dc;
+  --bg-elevated: #faf7f0;
+  --bg-card: #efeae0;
+  --text-primary: #1a1a1d;
+  --text-secondary: #3c3a36;
+  --text-muted: #787470;
+  --text-accent: #a85a2a;
+  --accent: #a85a2a;
+  --accent-2: #a85a2a;
+  --accent-soft: rgba(168, 90, 42, 0.16);
+  --accent-strong: rgba(168, 90, 42, 0.42);
+  --border: #d6cfc1;
+  --border-hover: #a85a2a;
+  --shadow: rgba(40, 30, 20, 0.16);
   --grain-opacity: 0.025;
-  --section-wash: rgba(173, 216, 230, 0.88);
-  --card-wash: rgba(220, 235, 243, 0.92);
+  --section-wash: rgba(244, 241, 234, 0.88);
+  --card-wash: rgba(250, 247, 240, 0.92);
 }
 
 /* ── Base ───────────────────────────────────────────────────── */
@@ -711,7 +714,7 @@ body {
   --switch-height: 20px;
   /* circle */
   --circle-diameter: 32px;
-  --circle-bg: rgb(0, 56, 146);
+  --circle-bg: rgba(0, 0, 0, 0.18);
   --circle-inset: calc((var(--circle-diameter) - var(--switch-height)) / 2);
   display: inline-flex;
   align-items: center;
@@ -778,15 +781,15 @@ body {
   height: 0;
 }
 
-/* Theme-aware palette: smokey white (dark mode) and light blue (light mode). */
+/* Theme-aware palette: midnight paper (dark) and paper & ink (light). */
 [data-theme="dark"] .ui-switch {
-  --switch-bg: rgb(200, 204, 210);
-  --circle-bg: rgb(77, 142, 255);
+  --switch-bg: rgb(60, 65, 75);
+  --circle-bg: rgb(200, 122, 74);
 }
 
 [data-theme="light"] .ui-switch {
-  --switch-bg: rgb(140, 175, 195);
-  --circle-bg: rgb(30, 106, 168);
+  --switch-bg: rgb(220, 215, 205);
+  --circle-bg: rgb(168, 90, 42);
 }
 
 /* The switch inside the nav is sized down so it sits with the other icons. */
@@ -3139,13 +3142,13 @@ body {
 }
 
 [data-theme="light"] body {
-  /* Light mode dominant color — light blue. */
-  background: linear-gradient(to right, #add8e6 0%, #add8e6 100%);
+  /* Paper & ink — warm off-white paper. */
+  background: linear-gradient(to right, #f4f1ea 0%, #f4f1ea 100%);
 }
 
 [data-theme="dark"] body {
-  /* Dark mode dominant color — smokey white. */
-  background: linear-gradient(to right, #f5f5f5 0%, #f5f5f5 100%);
+  /* Midnight paper — deep cool charcoal. */
+  background: linear-gradient(to right, #16181d 0%, #16181d 100%);
 }
 
 body::before {
