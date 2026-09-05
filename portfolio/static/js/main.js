@@ -206,15 +206,137 @@
   // nav and mobile toggles are optional and added independently if present.
   if (chatWidget && chatFab && chatClose) {
     let chatOpen = false;
+    let typewriterCancel = null; // set to a function to abort the running animation
+
+    // ── Typewriter: types a structured welcome into the boot message
+    // when the chat opens. Each line is typed character by character
+    // with a small jitter. Honors prefers-reduced-motion (dumps final text).
+    const reducedMotion = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const BOOT_LINES = [
+      {
+        target: 'header',
+        html: '<span class="terminal_user">[sys]</span><span class="terminal_bling"> assistant</span><span class="terminal_location"> ~ /chat</span>',
+        delay: 120,
+      },
+      {
+        target: 'body',
+        text: "Hi there! I'm the portfolio assistant. Ask me anything — skills, projects, experience, contact.",
+        delay: 80,
+      },
+      {
+        target: 'prompt',
+        html: '<span class="terminal_user">$</span><span class="terminal_bling"> type a question and press ↵</span>',
+        delay: 80,
+      },
+    ];
+
+    function typeLine(lineEl, content, isHTML, onDone) {
+      lineEl.innerHTML = '';
+      if (reducedMotion) {
+        if (isHTML) lineEl.innerHTML = content;
+        onDone && onDone();
+        return;
+      }
+
+      // For HTML lines, parse them into plain-text tokens plus a parallel
+      // array of segment descriptors so we can re-render the line with
+      // spans as the visible text grows.
+      let tokens = [];
+      if (isHTML) {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = content;
+        const collect = (node, acc) => {
+          node.childNodes.forEach((c) => {
+            if (c.nodeType === Node.TEXT_NODE) {
+              acc.push({ text: c.textContent, span: null });
+            } else if (c.nodeType === Node.ELEMENT_NODE) {
+              acc.push({ text: c.textContent, span: c.outerHTML });
+            }
+          });
+        };
+        collect(tmp, tokens);
+      } else {
+        tokens = [{ text: content, span: null }];
+      }
+
+      const fullText = tokens.map((t) => t.text).join('');
+      let i = 0;
+      const speed = () => 22 + Math.random() * 26; // 22-48 ms per char
+
+      const tick = () => {
+        if (typewriterCancel && typewriterCancel.cancelled) {
+          lineEl.innerHTML = isHTML ? content : '';
+          onDone && onDone();
+          return;
+        }
+        if (i >= fullText.length) {
+          lineEl.innerHTML = isHTML ? content : '';
+          onDone && onDone();
+          return;
+        }
+        i++;
+        const visible = fullText.slice(0, i);
+        if (isHTML) {
+          let out = '';
+          let remaining = visible.length;
+          for (const t of tokens) {
+            if (remaining <= 0) break;
+            const take = Math.min(t.text.length, remaining);
+            const piece = t.text.slice(0, take);
+            remaining -= take;
+            out += t.span ? t.span.replace(t.text, piece) : piece;
+          }
+          lineEl.innerHTML = out;
+        } else {
+          lineEl.textContent = visible;
+        }
+        setTimeout(tick, speed());
+      };
+      setTimeout(tick, speed());
+    }
+
+    function playBootSequence() {
+      // Cancel any prior run
+      if (typewriterCancel) typewriterCancel.cancelled = true;
+      const cancel = { cancelled: false };
+      typewriterCancel = cancel;
+
+      const lines = [
+        { el: document.querySelector('[data-type-line="header"]'), spec: BOOT_LINES[0] },
+        { el: document.querySelector('[data-type-line="body"]'),   spec: BOOT_LINES[1] },
+        { el: document.querySelector('[data-type-line="prompt"]'), spec: BOOT_LINES[2] },
+      ];
+      if (!lines.every((l) => l.el)) return;
+
+      // Reset all lines before starting
+      lines.forEach((l) => { l.el.innerHTML = ''; });
+      chatMessages.scrollTop = 0;
+
+      // Chain the three lines with a small inter-line pause
+      const run = (i) => {
+        if (i >= lines.length || cancel.cancelled) return;
+        const { el, spec } = lines[i];
+        setTimeout(() => {
+          typeLine(el, spec.html || spec.text, !!spec.html, () => run(i + 1));
+        }, spec.delay || 0);
+      };
+      run(0);
+    }
+
     const openChat = () => {
       chatOpen = true;
       chatWidget.classList.add('is-open');
       chatWidget.setAttribute('aria-hidden', 'false');
+      // Replay the typewriter welcome every time the chat opens.
+      playBootSequence();
     };
     const closeChatWidget = () => {
       chatOpen = false;
       chatWidget.classList.remove('is-open');
       chatWidget.setAttribute('aria-hidden', 'true');
+      if (typewriterCancel) typewriterCancel.cancelled = true;
     };
     chatFab.addEventListener('click', () => (chatOpen ? closeChatWidget() : openChat()));
     chatClose.addEventListener('click', closeChatWidget);
