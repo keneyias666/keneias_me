@@ -6,47 +6,47 @@
 /* ── CSS Variables (Themes) ─────────────────────────────────── */
 :root,
 [data-theme="dark"] {
-  /* Standard blue palette — deep navy ground, electric blue accent. */
-  --bg-primary: #0d1b2a;
-  --bg-secondary: #122539;
-  --bg-elevated: #1b2f48;
-  --bg-card: #142537;
-  --text-primary: #e8f1fb;
-  --text-secondary: #b5c8de;
-  --text-muted: #6f8aa8;
+  /* Smokey white ground — dominant #f5f5f5 with cool gray-blue surface tones. */
+  --bg-primary: #f5f5f5;
+  --bg-secondary: #e8ebef;
+  --bg-elevated: #ffffff;
+  --bg-card: #ececec;
+  --text-primary: #15171c;
+  --text-secondary: #2a2f38;
+  --text-muted: #5a6068;
   --text-accent: #4d8eff;
   --accent: #4d8eff;
   --accent-2: #4d8eff;
-  --accent-soft: rgba(77, 142, 255, 0.22);
-  --accent-strong: rgba(77, 142, 255, 0.55);
-  --border: #2a3f5a;
+  --accent-soft: rgba(77, 142, 255, 0.18);
+  --accent-strong: rgba(77, 142, 255, 0.45);
+  --border: #c8ccd2;
   --border-hover: #4d8eff;
-  --shadow: rgba(5, 12, 24, 0.72);
-  --grain-opacity: 0.05;
-  --section-wash: rgba(13, 27, 42, 0.62);
-  --card-wash: rgba(20, 37, 55, 0.82);
+  --shadow: rgba(20, 24, 30, 0.22);
+  --grain-opacity: 0.03;
+  --section-wash: rgba(245, 245, 245, 0.86);
+  --card-wash: rgba(255, 255, 255, 0.92);
 }
 
 [data-theme="light"] {
-  /* Warm stone palette — #cac4b8 dominant across all surfaces. */
-  --bg-primary: #cac4b8;
-  --bg-secondary: #bdb6a9;
-  --bg-elevated: #d2cdc1;
-  --bg-card: #c4beaf;
-  --text-primary: #1a1a1d;
-  --text-secondary: #2e2e33;
-  --text-muted: #5a5a60;
-  --text-accent: #4d7c8a;
-  --accent: #4d7c8a;
-  --accent-2: #4d7c8a;
-  --accent-soft: rgba(77, 124, 138, 0.18);
-  --accent-strong: rgba(77, 124, 138, 0.45);
-  --border: #a89f8e;
-  --border-hover: #4d7c8a;
-  --shadow: rgba(60, 55, 45, 0.22);
-  --grain-opacity: 0.03;
-  --section-wash: rgba(202, 196, 184, 0.88);
-  --card-wash: rgba(210, 204, 192, 0.92);
+  /* Light blue ground — #add8e6 dominant with sky-tinted surface tones. */
+  --bg-primary: #add8e6;
+  --bg-secondary: #9cc4d3;
+  --bg-elevated: #c8e2ec;
+  --bg-card: #b8d8e3;
+  --text-primary: #0e1a24;
+  --text-secondary: #243240;
+  --text-muted: #4f5d68;
+  --text-accent: #1e6aa8;
+  --accent: #1e6aa8;
+  --accent-2: #1e6aa8;
+  --accent-soft: rgba(30, 106, 168, 0.18);
+  --accent-strong: rgba(30, 106, 168, 0.45);
+  --border: #88b6c8;
+  --border-hover: #1e6aa8;
+  --shadow: rgba(15, 30, 45, 0.22);
+  --grain-opacity: 0.025;
+  --section-wash: rgba(173, 216, 230, 0.88);
+  --card-wash: rgba(220, 235, 243, 0.92);
 }
 
 /* ── Base ───────────────────────────────────────────────────── */
@@ -778,16 +778,15 @@ body {
   height: 0;
 }
 
-/* Theme-aware palette: in light mode the switch is a sun (blue circle).
-   In dark mode the switch shows a moon (warm circle). */
+/* Theme-aware palette: smokey white (dark mode) and light blue (light mode). */
 [data-theme="dark"] .ui-switch {
-  --switch-bg: rgb(70, 80, 95);
-  --circle-bg: rgb(232, 168, 90);
+  --switch-bg: rgb(200, 204, 210);
+  --circle-bg: rgb(77, 142, 255);
 }
 
 [data-theme="light"] .ui-switch {
-  --switch-bg: rgb(195, 205, 215);
-  --circle-bg: rgb(40, 90, 160);
+  --switch-bg: rgb(140, 175, 195);
+  --circle-bg: rgb(30, 106, 168);
 }
 
 /* The switch inside the nav is sized down so it sits with the other icons. */
@@ -2943,8 +2942,8 @@ body.is-loading .reveal-scroll {
   --sepia-strong: rgba(176, 122, 74, 0.28);
   --stamp-ink: #c66a4a;
   --stamp-ink-soft: rgba(198, 106, 74, 0.62);
-  --reel-opacity: 0.48;   /* how much the ambient video shows through (clearly visible) */
-  --reel-tint: rgba(8, 8, 10, 0.56); /* base wash over the video */
+  --reel-opacity: 0.62;   /* how much the ambient video shows through (clearly visible) */
+  --reel-tint: rgba(8, 8, 10, 0.46); /* base wash over the video */
   --reel-section-wash: rgba(8, 8, 10, 0.62); /* backing for each section card so text reads */
 }
 
@@ -2958,8 +2957,8 @@ body.is-loading .reveal-scroll {
   --sepia-strong: rgba(138, 74, 40, 0.22);
   --stamp-ink: #a83a1c;
   --stamp-ink-soft: rgba(168, 58, 28, 0.65);
-  --reel-opacity: 0.42;
-  --reel-tint: rgba(246, 243, 236, 0.56);
+  --reel-opacity: 0.55;
+  --reel-tint: rgba(246, 243, 236, 0.46);
   --reel-section-wash: rgba(246, 243, 236, 0.78);
 }
 
@@ -3140,13 +3139,13 @@ body {
 }
 
 [data-theme="light"] body {
-  /* Light mode dominant color — explicit warm-stone gradient. */
-  background: linear-gradient(to right, #cac4b8 0%, #cac4b8 100%);
+  /* Light mode dominant color — light blue. */
+  background: linear-gradient(to right, #add8e6 0%, #add8e6 100%);
 }
 
 [data-theme="dark"] body {
-  /* Dark mode dominant color — standard blue. */
-  background: linear-gradient(to right, #0d1b2a 0%, #0d1b2a 100%);
+  /* Dark mode dominant color — smokey white. */
+  background: linear-gradient(to right, #f5f5f5 0%, #f5f5f5 100%);
 }
 
 body::before {
