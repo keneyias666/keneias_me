@@ -1787,13 +1787,20 @@ body {
   margin: 0;
   padding: 0;
   white-space: pre-wrap;
-  word-wrap: break-word;
+  word-break: break-word;
   line-height: 1.55;
   font-family: inherit;
   font-size: 12.5px;
   letter-spacing: 0;
   text-align: left;
+  text-indent: 0;
 }
+
+/* Strip any leading whitespace from the start of an output_text line.
+   When the static HTML or JS template literals indent their spans, the
+   leading spaces get rendered with pre-wrap and shift the text right. */
+.terminal_output .output_text::first-line { text-indent: 0; }
+.terminal_output .output_text:first-child { margin: 0; }
 
 .terminal_output .chat-message {
   max-width: 100%;
