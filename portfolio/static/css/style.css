@@ -6,45 +6,47 @@
 /* ── CSS Variables (Themes) ─────────────────────────────────── */
 :root,
 [data-theme="dark"] {
-  --bg-primary: #08080a;
-  --bg-secondary: #101015;
-  --bg-elevated: #18181d;
-  --bg-card: #15151a;
-  --text-primary: #f6f6f8;
-  --text-secondary: #c8c8d0;
-  --text-muted: #6f6f78;
-  --text-accent: #8eb6c0;
-  --accent: #8eb6c0;
-  --accent-2: #8eb6c0;
-  --accent-soft: rgba(142, 182, 192, 0.22);
-  --accent-strong: rgba(142, 182, 192, 0.55);
-  --border: #2e3a42;
-  --border-hover: #8eb6c0;
-  --shadow: rgba(0, 0, 0, 0.72);
+  /* Standard blue palette — deep navy ground, electric blue accent. */
+  --bg-primary: #0d1b2a;
+  --bg-secondary: #122539;
+  --bg-elevated: #1b2f48;
+  --bg-card: #142537;
+  --text-primary: #e8f1fb;
+  --text-secondary: #b5c8de;
+  --text-muted: #6f8aa8;
+  --text-accent: #4d8eff;
+  --accent: #4d8eff;
+  --accent-2: #4d8eff;
+  --accent-soft: rgba(77, 142, 255, 0.22);
+  --accent-strong: rgba(77, 142, 255, 0.55);
+  --border: #2a3f5a;
+  --border-hover: #4d8eff;
+  --shadow: rgba(5, 12, 24, 0.72);
   --grain-opacity: 0.05;
-  --section-wash: rgba(8, 8, 10, 0.62);
-  --card-wash: rgba(24, 24, 29, 0.78);
+  --section-wash: rgba(13, 27, 42, 0.62);
+  --card-wash: rgba(20, 37, 55, 0.82);
 }
 
 [data-theme="light"] {
-  --bg-primary: #f6f3ec;
-  --bg-secondary: #ece6d8;
-  --bg-elevated: #ffffff;
-  --bg-card: #efe9da;
-  --text-primary: #0a0a0c;
-  --text-secondary: #2c2c30;
+  /* Warm stone palette — #cac4b8 dominant across all surfaces. */
+  --bg-primary: #cac4b8;
+  --bg-secondary: #bdb6a9;
+  --bg-elevated: #d2cdc1;
+  --bg-card: #c4beaf;
+  --text-primary: #1a1a1d;
+  --text-secondary: #2e2e33;
   --text-muted: #5a5a60;
   --text-accent: #4d7c8a;
   --accent: #4d7c8a;
   --accent-2: #4d7c8a;
-  --accent-soft: rgba(77, 124, 138, 0.16);
-  --accent-strong: rgba(77, 124, 138, 0.42);
-  --border: #c8c0ad;
+  --accent-soft: rgba(77, 124, 138, 0.18);
+  --accent-strong: rgba(77, 124, 138, 0.45);
+  --border: #a89f8e;
   --border-hover: #4d7c8a;
-  --shadow: rgba(20, 20, 20, 0.18);
-  --grain-opacity: 0.028;
-  --section-wash: rgba(246, 243, 236, 0.78);
-  --card-wash: rgba(255, 252, 245, 0.86);
+  --shadow: rgba(60, 55, 45, 0.22);
+  --grain-opacity: 0.03;
+  --section-wash: rgba(202, 196, 184, 0.88);
+  --card-wash: rgba(210, 204, 192, 0.92);
 }
 
 /* ── Base ───────────────────────────────────────────────────── */
@@ -818,21 +820,7 @@ body {
   border-color: var(--border-hover);
 }
 
-.ui-switch--floating::after {
-  content: 'Theme';
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-left: 6px;
-  padding-right: 4px;
-}
-
 @media (max-width: 640px) {
-  .ui-switch--floating::after {
-    display: none;
-  }
   .ui-switch--floating {
     bottom: 18px;
     left: 18px;
@@ -3147,8 +3135,18 @@ body.reduce-motion .reel-ambient__grain {
    above at z: 1 with their own wash that makes text readable while
    the webm stays clearly visible at the page edges and between cards. */
 body {
-  background-color: var(--bg-primary);
+  background: var(--bg-primary);
   position: relative;
+}
+
+[data-theme="light"] body {
+  /* Light mode dominant color — explicit warm-stone gradient. */
+  background: linear-gradient(to right, #cac4b8 0%, #cac4b8 100%);
+}
+
+[data-theme="dark"] body {
+  /* Dark mode dominant color — standard blue. */
+  background: linear-gradient(to right, #0d1b2a 0%, #0d1b2a 100%);
 }
 
 body::before {
