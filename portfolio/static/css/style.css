@@ -1754,13 +1754,15 @@ body {
   flex-direction: column;
 }
 
-/* Transcript: scrollable, with padding */
+/* Transcript: scrollable, with vertical padding only — text starts
+   at the very left edge of the panel. */
 .terminal_output {
-  padding: 10px 12px;
+  padding: 12px 14px;
   flex-grow: 1;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
+  text-align: left;
 }
 
 .terminal_output::-webkit-scrollbar { width: 6px; }
@@ -1778,6 +1780,7 @@ body {
 .terminal_output pre, .terminal_output blockquote {
   margin: 0;
   padding: 0;
+  text-align: left;
 }
 
 .terminal_output .output_text {
@@ -1789,6 +1792,7 @@ body {
   font-family: inherit;
   font-size: 12.5px;
   letter-spacing: 0;
+  text-align: left;
 }
 
 .terminal_output .chat-message {
@@ -1796,25 +1800,9 @@ body {
   margin: 0;
   padding: 0;
   display: block;
+  text-align: left;
 }
 .terminal_output .chat-message + .chat-message { margin-top: 12px; }
-
-/* Each line inside a message gets a small leading indent so wrapped
-   lines line up with the start of the message (terminal convention). */
-.terminal_output .chat-message .output_text {
-  padding-left: 14px;
-  position: relative;
-}
-.terminal_output .chat-message .output_text::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.55em;
-  width: 8px;
-  height: 1px;
-  background: var(--border);
-  opacity: 0.7;
-}
 
 /* Inline semantic spans share the monospace family and stay on one
    line so colors sit on the same baseline. */
@@ -1832,12 +1820,13 @@ body {
 .terminal_prompt {
   display: flex;
   align-items: center;
-  padding: 10px 12px;
+  padding: 10px 14px;
   border-top: 1px solid var(--border);
   background: color-mix(in srgb, var(--bg-secondary) 60%, transparent);
   flex-shrink: 0;
   gap: 6px;
   min-height: 38px;
+  text-align: left;
 }
 
 .terminal_user { color: #1eff8e; }

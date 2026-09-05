@@ -258,14 +258,7 @@
       const addUserMsg = (txt) => {
         const wrap = document.createElement('div');
         wrap.className = 'chat-message chat-message--user';
-        wrap.innerHTML = `
-          <p class="output_text">
-            <span class="terminal_user">[${escape(time())}]</span>
-            <span class="terminal_bling"> user</span>
-            <span class="terminal_location"> ~ /chat</span>
-            <span class="terminal_bling"> $</span>
-            <span class="terminal_bling"> ${escape(txt)}</span>
-          </p>`;
+        wrap.innerHTML = `<p class="output_text"><span class="terminal_user">[${escape(time())}]</span><span class="terminal_bling"> user</span><span class="terminal_location"> ~ /chat</span><span class="terminal_bling"> $</span><span class="terminal_bling"> ${escape(txt)}</span></p>`;
         chatMessages.appendChild(wrap);
         chatMessages.scrollTop = chatMessages.scrollHeight;
       };
@@ -273,14 +266,7 @@
       const addBotMsg = (txt) => {
         const wrap = document.createElement('div');
         wrap.className = 'chat-message chat-message--bot';
-        wrap.innerHTML = `
-          <p class="output_text">
-            <span class="terminal_user">[${escape(time())}]</span>
-            <span class="terminal_bling"> </span>
-            <span class="terminal_user">[sys]</span>
-            <span class="terminal_bling"> assistant</span>
-          </p>
-          <p class="output_text terminal_bling" style="margin-top: 4px;">${escape(txt)}</p>`;
+        wrap.innerHTML = `<p class="output_text"><span class="terminal_user">[${escape(time())}]</span><span class="terminal_user">[sys]</span><span class="terminal_bling"> assistant</span></p><p class="output_text terminal_bling" style="margin-top: 6px;">${escape(txt)}</p>`;
         chatMessages.appendChild(wrap);
         chatMessages.scrollTop = chatMessages.scrollHeight;
       };
@@ -288,14 +274,7 @@
       const addTyping = () => {
         const wrap = document.createElement('div');
         wrap.className = 'chat-message chat-message--bot chat-typing';
-        wrap.innerHTML = `
-          <p class="output_text">
-            <span class="terminal_user">[sys]</span>
-            <span class="terminal_bling"> assistant</span>
-            <span class="terminal_location"> ~ /chat</span>
-            <span class="terminal_bling"> thinking</span>
-            <span class="terminal_bling"> <span class="terminal-dots"><i>.</i><i>.</i><i>.</i></span></span>
-          </p>`;
+        wrap.innerHTML = `<p class="output_text"><span class="terminal_user">[sys]</span><span class="terminal_bling"> assistant</span><span class="terminal_location"> ~ /chat</span><span class="terminal_bling"> thinking</span><span class="terminal_bling"> <span class="terminal-dots"><i>.</i><i>.</i><i>.</i></span></span></p>`;
         chatMessages.appendChild(wrap);
         chatMessages.scrollTop = chatMessages.scrollHeight;
         return wrap;
