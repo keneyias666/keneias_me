@@ -672,7 +672,31 @@ body {
   height: 26px;
   object-fit: contain;
   display: block;
+  /* Light mode: a soft black drop-shadow lifts the dark mark off the
+     cream paper background. */
   filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.18));
+  transition: filter 0.5s ease;
+}
+
+/* Dark mode: invert the dark mark to white and add a warm-clay glow
+   so the logo reads as a designed accent against the midnight paper
+   ground, not a black hole. The glow uses the brand accent so it
+   ties to the rest of the page (avatar breathing, switch circle). */
+[data-theme="dark"] .brand-logo-img {
+  filter:
+    brightness(0) invert(1)
+    drop-shadow(0 0 4px rgba(255, 140, 26, 0.55))
+    drop-shadow(0 0 10px rgba(255, 140, 26, 0.35))
+    drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+}
+
+/* Hover: brighten the glow a touch in dark mode for tactile feedback. */
+[data-theme="dark"] .brand-logo:hover .brand-logo-img {
+  filter:
+    brightness(0) invert(1)
+    drop-shadow(0 0 6px rgba(255, 140, 26, 0.75))
+    drop-shadow(0 0 14px rgba(255, 140, 26, 0.45))
+    drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
 }
 
 .nav-link {
