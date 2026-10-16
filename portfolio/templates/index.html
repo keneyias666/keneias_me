@@ -1132,22 +1132,28 @@
               <span class="tag-chip-sm work-tag-more">+{{ w.tags | length - 3 }} more</span>
               {% endif %}
             </div>
-            <a href="{{ w.link }}" {% if w.link !='#' %}target="_blank" {% endif %} class="work-card-btn"
+            <a href="{{ w.link }}" {% if w.link !='#' %}target="_blank" rel="noopener noreferrer" {% endif %} class="work-card-btn"
               aria-label="{{ w.aria }}">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 {% if "behance" in w.link %}
                 <path
                   d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6z"
                   fill="currentColor" />
-                {% else %}
+                {% elif "github.com" in w.link %}
                 <path
                   d="M12 .5A12 12 0 0 0 8.2 23.9c.6.1.8-.2.8-.6v-2.2c-3.4.8-4.1-1.5-4.1-1.5-.6-1.5-1.4-1.9-1.4-1.9-1.1-.8.1-.8.1-.8 1.3.1 1.9 1.3 1.9 1.3 1.1 1.9 2.9 1.4 3.6 1.1.1-.8.4-1.4.8-1.8-2.7-.3-5.6-1.4-5.6-6A4.7 4.7 0 0 1 5.4 8c-.1-.3-.6-1.6.1-3.3 0 0 1-.3 3.4 1.3a11.5 11.5 0 0 1 6.2 0c2.4-1.6 3.4-1.3 3.4-1.3.7 1.7.2 3 .1 3.3.8.9 1.3 2 1.3 3.3 0 4.7-2.9 5.7-5.7 6 .4.4.8 1.1.8 2.3v3.3c0 .4.2.7.8.6A12 12 0 0 0 12 .5Z"
                   fill="currentColor" />
+                {% else %}
+                <path
+                  d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"
+                  fill="currentColor" />
                 {% endif %}
               </svg>
-              {% if "behance" in w.link %}Portfolio
+              {% if w.btn_label %}{{ w.btn_label }}
+              {% elif "behance" in w.link %}Portfolio
               {% elif w.link == "#" %}In Progress
-              {% else %}Code{% endif %}
+              {% elif "github.com" in w.link %}Code
+              {% else %}Live App{% endif %}
             </a>
           </div>
 
