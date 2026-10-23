@@ -342,6 +342,10 @@
       chatWidget.classList.remove('is-open');
       chatWidget.setAttribute('aria-hidden', 'true');
       if (typewriterCancel) typewriterCancel.cancelled = true;
+      if (typeof botTypewriterCancel !== 'undefined' && botTypewriterCancel) {
+        botTypewriterCancel.cancelled = true;
+        if (botTypewriterCancel.finish) botTypewriterCancel.finish();
+      }
     };
     chatFab.addEventListener('click', () => (chatOpen ? closeChatWidget() : openChat()));
     chatClose.addEventListener('click', closeChatWidget);
@@ -390,12 +394,69 @@
         chatMessages.scrollTop = chatMessages.scrollHeight;
       };
 
-      const addBotMsg = (txt) => {
+      let botTypewriterCancel = null;
+
+      const addBotMsg = (txt, onDone) => {
+        if (botTypewriterCancel) {
+          botTypewriterCancel.cancelled = true;
+          if (botTypewriterCancel.finish) botTypewriterCancel.finish();
+        }
+
         const wrap = document.createElement('div');
         wrap.className = 'chat-message chat-message--bot';
-        wrap.innerHTML = `<p class="output_text"><span class="terminal_user">[${escape(time())}]</span><span class="terminal_user">[sys]</span><span class="terminal_bling"> assistant</span></p><p class="output_text terminal_bling" style="margin-top: 6px;">${escape(txt)}</p>`;
+        wrap.innerHTML = `<p class="output_text"><span class="terminal_user">[${escape(time())}]</span><span class="terminal_user">[sys]</span><span class="terminal_bling"> assistant</span></p><p class="output_text terminal_bling" style="margin-top: 6px;"></p>`;
         chatMessages.appendChild(wrap);
         chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        const bodyEl = wrap.querySelector('.output_text.terminal_bling');
+        if (!bodyEl) {
+          if (onDone) onDone();
+          return;
+        }
+
+        const linkify = (str) => {
+          const esc = escape(str);
+          return esc.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: var(--accent);">$1</a>');
+        };
+
+        if (reducedMotion) {
+          bodyEl.innerHTML = linkify(txt);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+          if (onDone) onDone();
+          return;
+        }
+
+        let i = 0;
+        const total = txt.length;
+        // Adaptive speed: comfortable vintage terminal baud rate
+        const charDelay = Math.max(10, Math.min(22, Math.floor(1400 / Math.max(total, 1))));
+        const step = total > 220 ? 2 : 1;
+
+        const cancel = { cancelled: false, finish: null };
+        botTypewriterCancel = cancel;
+
+        cancel.finish = () => {
+          bodyEl.innerHTML = linkify(txt);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        };
+
+        const tick = () => {
+          if (cancel.cancelled) return;
+          i += step;
+          if (i >= total) {
+            bodyEl.innerHTML = linkify(txt);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            botTypewriterCancel = null;
+            if (onDone) onDone();
+            return;
+          }
+          const visible = txt.slice(0, i);
+          bodyEl.innerHTML = escape(visible) + '<span class="terminal_user" style="opacity: 0.9; margin-left: 2px;">▌</span>';
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+          setTimeout(tick, charDelay);
+        };
+
+        setTimeout(tick, charDelay);
       };
 
       const addTyping = () => {
@@ -424,14 +485,18 @@
           });
           const data = await res.json();
           typingEl.remove();
-          addBotMsg(data.answer || 'sorry, i could not process that.');
+          addBotMsg(data.answer || 'sorry, i could not process that.', () => {
+            busy = false;
+            chatInput.focus();
+            positionCaret();
+          });
         } catch (_) {
           typingEl.remove();
-          addBotMsg('⚠️  connection error. please try again.');
-        } finally {
-          busy = false;
-          chatInput.focus();
-          positionCaret();
+          addBotMsg('⚠️  connection error. please try again.', () => {
+            busy = false;
+            chatInput.focus();
+            positionCaret();
+          });
         }
       };
       chatInput.addEventListener('keydown', (e) => {
