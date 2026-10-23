@@ -207,6 +207,7 @@
   if (chatWidget && chatFab && chatClose) {
     let chatOpen = false;
     let typewriterCancel = null; // set to a function to abort the running animation
+    let positionCaret = () => {};
 
     // ── Typewriter: types a structured welcome into the boot message
     // when the chat opens. Each line is typed character by character
@@ -331,6 +332,10 @@
       chatWidget.setAttribute('aria-hidden', 'false');
       // Replay the typewriter welcome every time the chat opens.
       playBootSequence();
+      setTimeout(() => {
+        positionCaret();
+        if (chatInput) chatInput.focus();
+      }, 60);
     };
     const closeChatWidget = () => {
       chatOpen = false;
@@ -408,6 +413,7 @@
         if (!q || busy) return;
         busy = true;
         chatInput.value = '';
+        positionCaret();
         addUserMsg(q);
         const typingEl = addTyping();
         try {
@@ -425,6 +431,7 @@
         } finally {
           busy = false;
           chatInput.focus();
+          positionCaret();
         }
       };
       chatInput.addEventListener('keydown', (e) => {
@@ -457,53 +464,69 @@
           left: -9999px;
           top: 0;
         `;
-        const inputStyle = getComputedStyle(chatInput);
-        measure.style.font = inputStyle.font;
-        measure.style.letterSpacing = inputStyle.letterSpacing;
+        const inputStyle = window.getComputedStyle(chatInput);
         measure.style.fontFamily = inputStyle.fontFamily;
         measure.style.fontSize = inputStyle.fontSize;
         measure.style.fontWeight = inputStyle.fontWeight;
+        measure.style.letterSpacing = inputStyle.letterSpacing;
         document.body.appendChild(measure);
 
-        const positionCaret = () => {
+        positionCaret = () => {
+          if (!prompt || !chatInput || !cursor) return;
           const promptRect = prompt.getBoundingClientRect();
-          const promptStyle = getComputedStyle(prompt);
-          const padLeft = parseFloat(promptStyle.paddingLeft) || 0;
-          // Find the $ prompt glyph so we can start the caret after it.
-          const dollarEl = prompt.querySelector('.terminal_user');
-          const dollarRect = dollarEl ? dollarEl.getBoundingClientRect() : null;
-          // End of $ + 6px gap (the flex gap on .terminal_prompt).
-          const startX = (dollarRect ? dollarRect.right - promptRect.left : 0) + 6;
-          // Measure the typed text width.
-          measure.textContent = chatInput.value || ' ';
-          const textW = measure.offsetWidth;
-          // Right-edge clamp: if the typed text overflows the visible
-          // input, pin the caret to the right edge of the input.
           const inputRect = chatInput.getBoundingClientRect();
-          const inputRight = inputRect.right - promptRect.left;
-          const inputLeft = inputRect.left - promptRect.left;
-          const visibleRight = inputRight - 4; // 4px breathing room
-          let caretX = startX + textW;
-          if (caretX > visibleRight) caretX = visibleRight;
-          if (caretX < inputLeft) caretX = inputLeft;
+          if (promptRect.width === 0 || inputRect.width === 0) return;
+
+          const currentStyle = window.getComputedStyle(chatInput);
+          const padLeft = parseFloat(currentStyle.paddingLeft) || 0;
+          const padRight = parseFloat(currentStyle.paddingRight) || 0;
+
+          measure.style.fontFamily = currentStyle.fontFamily;
+          measure.style.fontSize = currentStyle.fontSize;
+          measure.style.fontWeight = currentStyle.fontWeight;
+          measure.style.letterSpacing = currentStyle.letterSpacing;
+
+          const selEnd = (typeof chatInput.selectionEnd === 'number' && chatInput.selectionEnd >= 0)
+            ? chatInput.selectionEnd
+            : chatInput.value.length;
+          const textBefore = chatInput.value.slice(0, selEnd);
+
+          measure.textContent = textBefore;
+          const textW = textBefore.length > 0 ? measure.getBoundingClientRect().width : 0;
+          const scrollLeft = chatInput.scrollLeft || 0;
+
+          // Exact pixel start inside prompt + typed text width + 1px spacing
+          const startX = (inputRect.left - promptRect.left) + padLeft;
+          let caretX = startX + textW - scrollLeft + 1;
+
+          // Clamp within the input boundaries
+          const minX = startX;
+          const maxX = (inputRect.right - promptRect.left) - padRight - 2;
+          if (caretX < minX) caretX = minX;
+          if (caretX > maxX) caretX = maxX;
+
           cursor.style.left = caretX + 'px';
         };
 
         chatInput.addEventListener('input', positionCaret);
-        chatInput.addEventListener('keydown', positionCaret);
-        chatInput.addEventListener('focus', positionCaret);
+        chatInput.addEventListener('keydown', () => requestAnimationFrame(positionCaret));
+        chatInput.addEventListener('keyup', positionCaret);
+        chatInput.addEventListener('click', positionCaret);
+        chatInput.addEventListener('select', positionCaret);
+        chatInput.addEventListener('scroll', positionCaret);
+        chatInput.addEventListener('focus', () => {
+          cursor.style.opacity = '1';
+          positionCaret();
+        });
         chatInput.addEventListener('blur', () => {
           cursor.style.opacity = '0';
         });
-        chatInput.addEventListener('focus', () => {
-          cursor.style.opacity = '';
-        });
+
         // Re-measure when fonts load or the prompt resizes.
         if (document.fonts && document.fonts.ready) {
           document.fonts.ready.then(positionCaret);
         }
         window.addEventListener('resize', positionCaret);
-        // Initial position (handles the empty state + restored text).
         requestAnimationFrame(positionCaret);
       }
     }

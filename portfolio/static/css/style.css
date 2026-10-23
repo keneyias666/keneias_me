@@ -1884,9 +1884,10 @@ body {
   box-shadow: 0 0 6px rgba(255, 140, 26, 0.65);
   animation: curbl 1100ms steps(2) infinite;
   pointer-events: none;
-  /* Default position when empty (right after the $ prompt). */
   left: 28px;
-  transition: none;
+  opacity: 0;
+  will-change: left;
+  transition: opacity 0.15s ease;
 }
 
 [data-theme="light"] .terminal_cursor {
